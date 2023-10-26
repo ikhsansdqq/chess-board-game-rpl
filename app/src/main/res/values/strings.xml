@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">chess-board-game-rpl</string>
+
+    <string-array name="difficulty">
+        <item>EZ Mode</item>
+        <item>Normal Mode</item>
+        <item>Nightmare Mode</item>
+    </string-array>
 </resources>

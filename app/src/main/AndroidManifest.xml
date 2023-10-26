@@ -13,6 +13,10 @@
         android:theme="@style/Base.Theme.Chessboardgamerpl"
         tools:targetApi="31">
         <activity
+            android:name=".InGameActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:exported="false" />
+        <activity
             android:name=".Contributor"
             android:exported="false" />
         <activity

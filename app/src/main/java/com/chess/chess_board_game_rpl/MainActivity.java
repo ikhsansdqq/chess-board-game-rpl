@@ -1,5 +1,6 @@
 package com.chess.chess_board_game_rpl;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    Button mDialogButton, dismissButton;
+    Button mDialogButton, dismissButton, playWithBot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,21 @@ public class MainActivity extends AppCompatActivity {
 
         mDialogButton = findViewById(R.id.search_opponent);
         Dialog dialog = new Dialog(MainActivity.this);
+
+        playWithBot = findViewById(R.id.play_with_bot);
+        playWithBot.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Choose Difficulty");
+            final String[] levels = {"EZ Mode", "Normal Mode", "Nightmare Mode"};
+            String[] selectedDifficulty = {"EZ Mode"};
+            builder.setSingleChoiceItems(R.array.difficulty, 0, (dialog12, which) -> {
+                selectedDifficulty[0] = levels[which];
+                Toast.makeText(MainActivity.this, "Clicked on: " + levels[which], Toast.LENGTH_SHORT).show();
+            });
+            builder.setNegativeButton("Cancel", (dialog1, which) -> dialog1.dismiss());
+            builder.setPositiveButton("Confirm", ((dialog1, which) -> dialog1.dismiss()));
+            builder.show();
+        });
 
         mDialogButton.setOnClickListener(v -> {
             dialog.setContentView(R.layout.custom_dialog_1);
@@ -42,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         });
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         myToolbar.setTitle("Chess Board");
         setSupportActionBar(myToolbar);
 
@@ -64,10 +80,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         } else if (itemId == R.id.action_item2) {
-            Toast.makeText(this, "Action Item 2", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, InGameActivity.class);
+            startActivity(intent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 }
