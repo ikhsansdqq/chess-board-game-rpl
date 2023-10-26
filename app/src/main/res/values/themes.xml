@@ -8,5 +8,10 @@
         <item name="buttonStyle">@font/general_sans_semi_bold</item>
     </style>
 
+    <style name="animation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
     <style name="Theme.Chessboardgamerpl" parent="Base.Theme.Chessboardgamerpl" />
 </resources>
