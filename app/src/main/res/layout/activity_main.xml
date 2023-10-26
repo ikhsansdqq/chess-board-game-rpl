@@ -19,14 +19,12 @@
         android:id="@+id/textTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/imageAsset"
-        android:layout_below="@+id/my_toolbar"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/general_sans_semi_bold"
-        android:lineHeight="24sp"
-        android:text="Competitive Mode"
+        android:layout_below="@id/my_toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="117dp"
         android:textAlignment="center"
+        android:fontFamily="@font/general_sans_semi_bold"
+        android:text="Competitive Mode"
         android:textColor="#212121"
         android:textSize="20sp"
         android:textStyle="normal" />
@@ -35,12 +33,9 @@
         android:id="@+id/imageAsset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/layoutBottom"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="61dp"
-        android:layout_marginBottom="74dp"
+        android:layout_below="@id/textTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
         android:src="@drawable/chess_board_asset" />
 
     <LinearLayout
@@ -54,9 +49,8 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginHorizontal="24sp"
-            android:gravity="center"
+            android:layout_marginTop="4sp"
             android:fontFamily="@font/general_sans_semi_bold"
             android:paddingVertical="16sp"
             android:text="Search opponent" />
@@ -64,16 +58,13 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginHorizontal="24sp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/general_sans_semi_bold"
-            android:layout_marginTop="4sp"
             android:backgroundTint="#E9EBF8"
-            android:gravity="center"
             android:paddingVertical="16sp"
             android:text="Play with bot"
             android:textColor="@color/brand_primary" />
 
     </LinearLayout>
-
 </RelativeLayout>
