@@ -15,7 +15,8 @@ public class InGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_in_game);
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);
-        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitle("Game Activity");
+        toolbar.setSubtitle("In game for: 12 minutes");
         setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
