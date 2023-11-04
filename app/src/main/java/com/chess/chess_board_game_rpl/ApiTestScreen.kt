@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONObject
 
-data class PlayerData {
+data class PlayerData(
     val avatar: String,
     val playerId: Long,
     val id: String,
@@ -18,7 +18,7 @@ data class PlayerData {
     val status: String,
     val isStreamer: Boolean,
     val verified: Boolean
-}
+)
 
 class ApiTestScreen : AppCompatActivity() {
     var name = "ikhsansdq"
