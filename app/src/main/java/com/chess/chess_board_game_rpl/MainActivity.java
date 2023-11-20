@@ -1,5 +1,4 @@
 package com.chess.chess_board_game_rpl;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
