@@ -3,11 +3,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.GridLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+import android.view.View;
+import android.widget.ImageView;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +21,8 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     Button mDialogButton, dismissButton, playWithBot;
-
+    private GameBoard gameBoard;
+    private GridLayout gridLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Dialog dialog = new Dialog(MainActivity.this);
 
         playWithBot = findViewById(R.id.play_with_bot);
+        /*
         playWithBot.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("Choose Difficulty");
@@ -38,6 +44,32 @@ public class MainActivity extends AppCompatActivity {
             });
             builder.setNegativeButton("Cancel", (dialog1, which) -> dialog1.dismiss());
             builder.setPositiveButton("Confirm", ((dialog1, which) -> dialog1.dismiss()));
+            builder.show();
+        });
+        */
+
+        playWithBot.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Choose Difficulty");
+            final String[] levels = {"EZ Mode", "Normal Mode", "Nightmare Mode"};
+            // Use an array to hold the selected difficulty because it's effectively final
+            final String[] selectedDifficulty = {levels[0]}; // default to the first option
+
+            builder.setSingleChoiceItems(levels, 0, (dialog12, which) -> {
+                selectedDifficulty[0] = levels[which];
+                Toast.makeText(MainActivity.this, "Clicked on: " + levels[which], Toast.LENGTH_SHORT).show();
+            });
+            builder.setNegativeButton("Cancel", (dialog1, which) -> dialog1.dismiss());
+            builder.setPositiveButton("Confirm", (dialog1, which) -> {
+                // User clicked confirm, so check if the "Normal Mode" was selected
+                if ("Normal Mode".equals(selectedDifficulty[0])) {
+                    // Start the game activity
+                    Intent intent = new Intent(MainActivity.this, InGameActivity.class);
+                    intent.putExtra("difficulty", "Normal");
+                    startActivity(intent);
+                }
+                dialog1.dismiss();
+            });
             builder.show();
         });
 
@@ -86,5 +118,43 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    private void initializeUI() {
+        // Set up the UI to reflect the initial state of the gameBoard
+        gameBoard = new GameBoard();
 
+        // Assuming you have a method to create a view for each square
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                View squareView = createSquareView(gameBoard.getSquare(i, j));
+                
+                gridLayout.addView(squareView);
+
+                // Set a tag to identify the square later
+                squareView.setTag(new int[]{i, j});
+
+                // Add click listeners to the squares
+                squareView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // When a square is clicked, handle the move
+                        int[] position = (int[]) v.getTag();
+                        onSquareClicked(position[0], position[1]);
+                    }
+                });
+            }
+        }
+    }
+
+    private View createSquareView(Square square) {
+        // Create and return a view for the square
+        ImageView squareView = new ImageView(this);
+        // You'll set the image or background depending on whether the square is occupied
+        // and what piece is occupying it
+        return squareView;
+    }
+
+    private void onSquareClicked(int x, int y) {
+        // Handle the logic when a square is clicked
+        // This could involve selecting a piece, moving a piece, etc.
+    }
 }

@@ -11,13 +11,8 @@ public class Square {
         this.occupiedBy = null; // Initially, the square is not occupied
     }
 
-    public boolean isOccupied() {
-        return occupiedBy != null;
-    }
-
-    // Getter and setter for occupiedBy
-    public Piece getOccupiedBy() {
-        return occupiedBy;
+    public Piece isOccupied() {
+        return this.occupiedBy;
     }
 
     public void setOccupiedBy(Piece occupiedBy) {
