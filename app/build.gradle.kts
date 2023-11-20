@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.chess.chess_board_game_rpl"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.chess.chess_board_game_rpl"
         minSdk = 28
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
