@@ -4,23 +4,14 @@
     android:layout_height="match_parent">
 
     <!-- Toolbar at the top -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp" />
-
     <!-- Chessboard GridLayout -->
     <GridLayout
         android:id="@+id/chessBoard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/my_toolbar"
         android:layout_centerInParent="true"
         android:rowCount="8"
-        android:columnCount="8"
-        android:background="@android:color/black"> <!-- Using predefined Android color -->
+        android:columnCount="8"> <!-- Using predefined Android color -->
         <!-- Add ImageViews or Buttons for the squares here, or do it programmatically in your activity -->
     </GridLayout>
 
