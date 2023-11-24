@@ -20,7 +20,5 @@ public abstract class Piece {
     public String getColor() {
         return color;
     }
-
-    // Abstract method to be implemented by all concrete Piece classes
-    public abstract boolean validMove(int startX, int startY, int endX, int endY, Piece[][] board);
+    public abstract boolean validMove(Square square, Square clickedSquare);
 }

@@ -20,6 +20,14 @@ public class Square {
         this.isOccupied = isOccupied;
     }
 
+    public int getXPosition(){
+        return this.xPosition;
+    }
+
+    public int getYPosition() {
+        return yPosition;
+    }
+
     public Piece getOccupiedBy(){
         return this.occupiedBy;
     }
