@@ -42,9 +42,12 @@ public class InGameActivity extends AppCompatActivity {
         // Now you can initialize your game board and adjust settings based on the difficulty level
         setupGameBoard();
         //setGameDifficulty(difficultyLevel);
+
     }
 
     private void setupGameBoard() {
+        GameBoard gameBoard = new GameBoard(); // Ensure this is properly initialized
+
         //GameBoard gameBoard = new GameBoard();
         GridLayout chessBoard = findViewById(R.id.chessBoard);
 
@@ -52,20 +55,16 @@ public class InGameActivity extends AppCompatActivity {
             for (int col = 0; col < 8; col++) {
                 ImageView square = new ImageView(this);
 
-                /* Possible another implementation
-
-
-                Square gameSquare = gameBoard.getSquare(row, col);
+                Square gameSquare = GameBoard.getSquare(row, col);
 
                 // Set the image based on the state of the square in the GameBoard
-                if (gameSquare.hasPiece()) {
-                ChessPiece piece = gameSquare.getPiece();
-                if (piece instanceof Pawn && piece.getColor() == Color.BLACK) {
-                square.setImageResource(R.drawable.pawn_black);
-                }
+                if (gameSquare.isOccupied()) {
+                    Piece piece = gameSquare.getOccupiedBy();
+                        if (piece instanceof Pawn && piece.getColor() == "BLACK") {
+                                square.setImageResource(R.drawable.pawn_black);
+                        }
                 // Add similar conditions for other types of pieces
                 }
-                 */
                 // Set the background color or image depending on the square's color
                 if ((row + col) % 2 == 0) {
                     square.setBackgroundColor(getResources().getColor(R.color.light_square_color)); // Light color for even sum
@@ -73,19 +72,8 @@ public class InGameActivity extends AppCompatActivity {
                     square.setBackgroundColor(getResources().getColor(R.color.dark_square_color)); // Dark color for odd sum
                 }
 
-                if ((row == 1)){
-                    square.setImageResource(R.drawable.pawn_black);
-                }
-
-                /*
-                final int finalRow = row;
-                final int finalCol = col;
-                */
-                square.setOnClickListener(v -> square.setBackgroundColor(getResources().getColor(R.color.black)));
 
                 // Set the image for the piece if there is one
-
-
                 // Add LayoutParams to control the size of the squares
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();
                 params.width = getResources().getDimensionPixelSize(R.dimen.chess_square_size); // Define this dimension in your dimens.xml

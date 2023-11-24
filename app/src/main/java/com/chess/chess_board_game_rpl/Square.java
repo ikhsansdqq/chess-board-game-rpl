@@ -4,14 +4,23 @@ public class Square {
     private int xPosition;
     private int yPosition;
     private Piece occupiedBy; // This will be a reference to the piece that occupies the square
+    private boolean isOccupied;
 
     public Square(int x, int y) {
         this.xPosition = x;
         this.yPosition = y;
-        this.occupiedBy = null; // Initially, the square is not occupied
+        this.occupiedBy = null;
+        this.isOccupied = false;// Initially, the square is not occupied
     }
 
-    public Piece isOccupied() {
+    public boolean isOccupied() {
+        return this.isOccupied;
+    }
+    public void setOccupied(boolean isOccupied){
+        this.isOccupied = isOccupied;
+    }
+
+    public Piece getOccupiedBy(){
         return this.occupiedBy;
     }
 
