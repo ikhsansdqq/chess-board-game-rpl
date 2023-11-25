@@ -59,21 +59,25 @@ public class InGameActivity extends AppCompatActivity {
         GameBoard gameBoard = new GameBoard(); // Ensure this is properly initialized
         GridLayout chessBoard = findViewById(R.id.chessBoard);
         String squareTag;
+
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                ImageView square = new ImageView(this);
 
+                ImageView square = new ImageView(this);
                 Square gameSquare = GameBoard.getSquare(row, col);
                 squareTag = row + "," + col;
-                square.setTag(squareTag);
 
+                square.setTag(squareTag);
                 // Set the image based on the state of the square in the GameBoard
                 assert gameSquare != null;
                 if (gameSquare.isOccupied()) {
                     Piece piece = gameSquare.getOccupiedBy();
                         if (piece instanceof Pawn && Objects.equals(piece.getColor(), "BLACK")) {
-                                square.setImageResource(R.drawable.pawn_black);
+                            square.setImageResource(R.drawable.pawn_black);
+                        }else if (piece instanceof Pawn && Objects.equals(piece.getColor(), "WHITE")) {
+                            square.setImageResource(R.drawable.pawn_white);
                         }
+
                 // Add similar conditions for other types of pieces
                 }
                 // Set the background color or image depending on the square's color
@@ -89,8 +93,8 @@ public class InGameActivity extends AppCompatActivity {
                     int clickedRow = Integer.parseInt(parts[0]);
                     int clickedCol = Integer.parseInt(parts[1]);
 
-                    Square clickedSquare = GameBoard.getSquare(clickedRow, clickedCol);
-
+                    Square clickedSquare = gameBoard.getSquare(clickedRow, clickedCol);
+                    Square changeSquare;
                     //Log.d("ChessDebug", "Clicked Square: Row = " + clickedRow + ", Col = " + clickedCol);
 
                     if (selectedSquareWrapper.square == null) {
@@ -102,12 +106,23 @@ public class InGameActivity extends AppCompatActivity {
                         if (clickedSquare.isOccupied() && clickedSquare.getOccupiedBy() instanceof Pawn) { // TODO Making it more maintainble by making it universal instead of each pawn
 
                             //Log.d("ChessDebug", "Pawn selected at: Row = " + clickedRow + ", Col = " + clickedCol);
+
                             selectedSquareWrapper.square = clickedSquare;
                             selectedSquareWrapper.view = (ImageView) v;
 
+                            // TODO make a limit
+
+                            /*
+                            if (Objects.equals(clickedSquare.getOccupiedBy().getColor(), "BLACK")){
+                                for(int count = selectedSquareWrapper.square.getYPosition() + 1 ; count <= selectedSquareWrapper.square.getYPosition() + 2 ; count++) {
+                                    changeSquare = gameBoard.getSquare(clickedRow,count);
+                                    selectedSquareWrapper.view.setBackgroundColor(getResources().getColor(R.color.black));
+                                }
+                            }
+                            */
+
                             //Log.d("ChessDebug", "Clicked Square: Row = " + clickedRow + ", Col = " + clickedCol);
 
-                            // TODO Show move limits for the Pieces
                         }
                     } else {
                         // Second click - Attempting to move the pawn
@@ -147,20 +162,25 @@ public class InGameActivity extends AppCompatActivity {
         // Log the move
         //Log.d("ChessDebug", "Moving piece from (" + fromSquare.getXPosition() + ", " + fromSquare.getYPosition() + ") to (" + toSquare.getXPosition() + ", " + toSquare.getYPosition() + ")");
         //Log.d("ChessDebug", "By " + fromSquare.getOccupiedBy() );
-
-
         // Move the pawn on the board
-        toSquare.setOccupiedBy(fromSquare.getOccupiedBy());
-        toSquare.setOccupied(true);
-        fromSquare.setOccupiedBy(null);
-        fromSquare.setOccupied(false);
+        Piece piece = fromSquare.getOccupiedBy();
 
-        // Update the UI
-        toView.setImageResource(R.drawable.pawn_black); // Or whichever pawn it is
-        fromView.setImageDrawable(null); // Clear the image from the original square
+        if (piece instanceof Pawn && Objects.equals(piece.getColor(), "BLACK")) {
+            toSquare.setOccupiedBy(fromSquare.getOccupiedBy());
+            toSquare.setOccupied(true);
+            fromSquare.setOccupiedBy(null);
+            fromSquare.setOccupied(false);
+            toView.setImageResource(R.drawable.pawn_black); // Or whichever pawn it is
+            fromView.setImageDrawable(null); // Clear the image from the original square
 
-        // Any additional logic for updating game state
+        }else if (piece instanceof Pawn && Objects.equals(piece.getColor(), "WHITE")) {
+            toSquare.setOccupiedBy(fromSquare.getOccupiedBy());
+            toSquare.setOccupied(true);
+            fromSquare.setOccupiedBy(null);
+            fromSquare.setOccupied(false);
+            toView.setImageResource(R.drawable.pawn_white); // Or whichever pawn it is
+            fromView.setImageDrawable(null); // Clear the image from the original square
+        }
+
     }
-    //private void onSquareClicked(int row, int col){}
-
 }

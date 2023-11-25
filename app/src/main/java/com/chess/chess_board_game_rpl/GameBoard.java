@@ -18,6 +18,12 @@ public class GameBoard {
                     squares[row][col].setOccupiedBy(pawn_black); // Corrected line
                     squares[row][col].setOccupied(true);
                 }
+
+                if (row == 6){
+                    Piece pawn_white = new Pawn("WHITE");
+                    squares[row][col].setOccupiedBy(pawn_white);
+                    squares[row][col].setOccupied(true);
+                }
                 // You might also place pieces here depending on your design
             }
         }

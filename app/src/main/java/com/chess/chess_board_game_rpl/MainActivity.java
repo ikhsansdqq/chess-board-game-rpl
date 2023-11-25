@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Dialog dialog = new Dialog(MainActivity.this);
 
         playWithBot = findViewById(R.id.play_with_bot);
+
         /*
         playWithBot.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
