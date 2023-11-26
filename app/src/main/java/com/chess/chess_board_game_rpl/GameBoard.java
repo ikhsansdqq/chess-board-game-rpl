@@ -1,7 +1,9 @@
 package com.chess.chess_board_game_rpl;
 
 public class GameBoard {
+
     private static Square[][] squares = new Square[8][8];
+    private String piece_tag;
 
     public GameBoard() {
         initializeBoard();
@@ -14,21 +16,22 @@ public class GameBoard {
                 squares[row][col] = new Square(row, col);
 
                 if ((row == 1)){
-                    Piece pawn_black = new Pawn("BLACK");
+                    piece_tag =  "P" + (col + 1) + "B";
+                    Piece pawn_black = new Pawn("BLACK",piece_tag);
                     squares[row][col].setOccupiedBy(pawn_black); // Corrected line
                     squares[row][col].setOccupied(true);
                 }
 
                 if (row == 6){
-                    Piece pawn_white = new Pawn("WHITE");
+                    piece_tag =  "P" + (col + 1) + "W";
+                    Piece pawn_white = new Pawn("WHITE",piece_tag);
                     squares[row][col].setOccupiedBy(pawn_white);
                     squares[row][col].setOccupied(true);
                 }
                 // You might also place pieces here depending on your design
             }
         }
-        // Place pieces on the board
-        // This is just a placeholder, you'll need to create instances of the pieces and place them
+
     }
 
     public static Square getSquare(int x, int y) {
