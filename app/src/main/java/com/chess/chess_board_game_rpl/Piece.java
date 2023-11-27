@@ -1,5 +1,7 @@
 package com.chess.chess_board_game_rpl;
 
+import android.content.Context;
+
 public abstract class Piece {
     protected String color;
     protected String piece_tag;
@@ -16,5 +18,5 @@ public abstract class Piece {
         return piece_tag;
     }
 
-    public abstract boolean validMove(Square square, Square clickedSquare);
+    public abstract boolean validMove(Square square, Square clickedSquare, Context context);
 }
