@@ -1,15 +1,15 @@
 package com.chess.chess_board_game_rpl;
 
 import android.content.Intent;
-import android.net.ipsec.ike.ChildSessionCallback;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /* public class InGameActivity extends AppCompatActivity {
@@ -59,6 +59,17 @@ public class InGameActivity extends AppCompatActivity {
 
     private SquareWrapper selectedSquareWrapper = new SquareWrapper(null, null);
     private void setupGameBoard() {
+
+        // Making a HashMap to make everything more efficient
+        Map<String, Integer> pieceImageMap = new HashMap<>();
+        pieceImageMap.put("PAWN_BLACK", R.drawable.pawn_black);
+        pieceImageMap.put("PAWN_WHITE", R.drawable.pawn_white);
+        pieceImageMap.put("ROOK_BLACK", R.drawable.rook_black);
+        pieceImageMap.put("ROOK_WHITE", R.drawable.rook_white);
+        pieceImageMap.put("KNIGHT_BLACK", R.drawable.knight_black);
+        pieceImageMap.put("KNIGHT_WHITE", R.drawable.knight_white);
+        // Add other pieces here
+
         GameBoard gameBoard = new GameBoard(); //Initialize the board
         GridLayout chessBoard = findViewById(R.id.chessBoard);
         String squareTag; //Square tag is to track where the square should be
@@ -71,6 +82,13 @@ public class InGameActivity extends AppCompatActivity {
                 squareTag = row + "," + col; //Square tag consist of row,col for example row 1 and column 1 will be 1,1
 
                 square.setTag(squareTag); //Set the tag
+
+                // Set the background color or image depending on the square's color
+                if ((row + col) % 2 == 0) {
+                    square.setBackgroundColor(getResources().getColor(R.color.light_square_color)); // Light color
+                } else {
+                    square.setBackgroundColor(getResources().getColor(R.color.dark_square_color)); // Dark color
+                }
 
                 // Set the image based on the state of the square in the GameBoard
                 assert gameSquare != null;
@@ -88,30 +106,32 @@ public class InGameActivity extends AppCompatActivity {
                             }else if (Objects.equals(piece.getColor(),"WHITE")){
                                 square.setImageResource(R.drawable.rook_white);
                             }
+                        }else if (piece instanceof Knight){
+                            if (Objects.equals(piece.getColor(), "BLACK")){
+                                square.setImageResource(R.drawable.knight_black);
+                            }else if (Objects.equals(piece.getColor(),"WHITE")){
+                                square.setImageResource(R.drawable.knight_white);
+                            }
                         }
                 }
-                // Set the background color or image depending on the square's color
-                if ((row + col) % 2 == 0) {
-                    square.setBackgroundColor(getResources().getColor(R.color.light_square_color)); // Light color
-                } else {
-                    square.setBackgroundColor(getResources().getColor(R.color.dark_square_color)); // Dark color
-                }
 
-                square.setOnClickListener(v -> { //This is when the square is clicked
+                // Handle when the square is clicked
+                square.setOnClickListener(v -> { // This is when the square is clicked
                     String tag = (String) v.getTag();
-                    String[] parts = tag.split(","); //Split it and make it into variable
+                    String[] parts = tag.split(","); // Split it and make it into variable
                     int clickedRow = Integer.parseInt(parts[0]);
                     int clickedCol = Integer.parseInt(parts[1]);
 
                     Square clickedSquare = gameBoard.getSquare(clickedRow, clickedCol); //Get the square data from clicked square
-                    Square changeSquare;
+                    //Square changeSquare;
 
                     // Check if no piece is currently selected
                     // This condition is true when the player has not yet clicked on a piece, indicating the beginning of the action to select a piece on the board.
                     if (selectedSquareWrapper.square == null) {
 
                         // First click - Selecting the pieces
-                        if (clickedSquare.isOccupied() & clickedSquare.getOccupiedBy() instanceof Piece) {
+                        assert clickedSquare != null;
+                        if (clickedSquare.isOccupied() & clickedSquare.getOccupiedBy() != null) {
                             selectedSquareWrapper.square = clickedSquare; //The wrapper
                             selectedSquareWrapper.view = (ImageView) v;
 
@@ -133,7 +153,7 @@ public class InGameActivity extends AppCompatActivity {
                         if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare,gameBoard,this)) {
 
                             assert clickedSquare != null; // Just to make sure if somehow the clicked square is NULL
-                            movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v); //At
+                            movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v,pieceImageMap); //At
                             selectedSquareWrapper.square = null; // Reset after moving
                             selectedSquareWrapper.view = null;
 
@@ -155,30 +175,28 @@ public class InGameActivity extends AppCompatActivity {
             }
         }
     }
-    private void movePiece(Square fromSquare, Square toSquare, ImageView fromView, ImageView toView) {
+    private void movePiece(Square fromSquare, Square toSquare, ImageView fromView, ImageView toView,Map pieceImageMap) {
 
         Piece piece = fromSquare.getOccupiedBy(); //The square need to be checked about its content
+        String pieceType = piece.getClass().getSimpleName().toUpperCase(); // e.g., "PAWN", "ROOK", "KNIGHT"
+        String pieceColor = piece.getColor().toUpperCase(); // e.g., "BLACK", "WHITE"
+        String key = pieceType + "_" + pieceColor; // e.g., "PAWN_BLACK", "ROOK_WHITE"
 
-        //This part is to implement unique cases for pieces
-        if (piece instanceof Pawn){
-            Pawn pawn = (Pawn) piece;
-            if(pawn.isFirstMove()){ // Pawn is special case
-                pawn.setFirstMove(false);
-            }
+        //Unique Cases should be put here
+        if (piece instanceof Pawn && ((Pawn) piece).isFirstMove()) {
+            ((Pawn) piece).setFirstMove(false);
         }
 
-        //Move
+        // Move the pieces
+        if (pieceImageMap.containsKey(key)) {
+            toView.setImageResource((Integer) pieceImageMap.get(key));
+        }
+
         toSquare.setOccupiedBy(fromSquare.getOccupiedBy()); //Change the next square pieces content from null to the previously clicked square
         toSquare.setOccupied(true);
         fromSquare.setOccupiedBy(null); //Reset the previous clicked square to default
         fromSquare.setOccupied(false);
         fromView.setImageDrawable(null); // Clear the image from the original square
 
-        if (Objects.equals(piece.getColor(), "BLACK")){
-            toView.setImageResource(R.drawable.pawn_black); // Set the image source to the right color of pawn
-        }
-        if (Objects.equals(piece.getColor(),"WHITE")){
-            toView.setImageResource(R.drawable.pawn_white); // Set the image source to the right color of pawn
-        }
     }
 }

@@ -15,37 +15,47 @@ public class GameBoard {
             for (int col = 0; col < squares[row].length; col++) {
                 squares[row][col] = new Square(row, col);
 
-                if ((row == 1)){
-                    piece_tag =  "P" + (col + 1) + "B";
-                    Piece pawn_black = new Pawn("BLACK",piece_tag);
-                    squares[row][col].setOccupiedBy(pawn_black); // Corrected line
-                    squares[row][col].setOccupied(true);
+                if (row == 1) {
+                    addPieceToSquare(row, col, "P", "BLACK", squares);
+                } else if (row == 6) {
+                    addPieceToSquare(row, col, "P", "WHITE", squares);
+                } else if (row == 0 && (col == 0 || col == 7)) {
+                    addPieceToSquare(row, col, "R", "BLACK", squares);
+                } else if (row == 7 && (col == 0 || col == 7)) {
+                    addPieceToSquare(row, col, "R", "WHITE", squares);
+                } else if (row == 0 && (col == 1 || col == 6)) {
+                    addPieceToSquare(row, col, "K", "BLACK", squares);
+                } else if (row == 7 && (col == 1 || col == 6)) {
+                    addPieceToSquare(row, col, "K", "WHITE", squares);
                 }
-
-                if (row == 6){
-                    piece_tag =  "P" + (col + 1) + "W";
-                    Piece pawn_white = new Pawn("WHITE",piece_tag);
-                    squares[row][col].setOccupiedBy(pawn_white);
-                    squares[row][col].setOccupied(true);
-                }
-
-                if (row == 0 && (col == 0 || col == 7)){
-                    piece_tag = "R" + (col + 1) + "B";
-                    Piece rook_black = new Rook("BLACK",piece_tag);
-                    squares[row][col].setOccupiedBy(rook_black);
-                    squares[row][col].setOccupied(true);
-                }
-
-                if (row == 7&& (col == 0 || col == 7)){
-                    piece_tag = "R" + (col + 1) + "W";
-                    Piece rook_black = new Rook("WHITE",piece_tag);
-                    squares[row][col].setOccupiedBy(rook_black);
-                    squares[row][col].setOccupied(true);
-                }
+                // Add other pieces like bishops, queens, and kings
             }
         }
-
     }
+
+    private void addPieceToSquare(int row, int col, String type, String color, Square[][] squares) {
+        String pieceTag = type + (col + 1) + (color.equals("BLACK") ? "B" : "W");
+        Piece piece;
+
+        switch (type) {
+            case "P":
+                piece = new Pawn(color, pieceTag);
+                break;
+            case "R":
+                piece = new Rook(color, pieceTag);
+                break;
+            case "K":
+                piece = new Knight(color, pieceTag);
+                break;
+            // Add cases for other piece types
+            default:
+                return; // or throw an exception
+        }
+
+        squares[row][col].setOccupiedBy(piece);
+        squares[row][col].setOccupied(true);
+    }
+
 
     public static Square getSquare(int x, int y) {
         if (x >= 0 && x < 8 && y >= 0 && y < 8) {
