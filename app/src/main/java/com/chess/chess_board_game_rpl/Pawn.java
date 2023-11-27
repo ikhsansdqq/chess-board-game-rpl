@@ -4,6 +4,8 @@ import android.util.Log;
 import android.widget.Toast;
 import android.content.Context;
 
+import java.util.Objects;
+
 public class Pawn extends Piece {
 
     private boolean firstMove = true;
@@ -21,7 +23,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean validMove(Square currentSquare, Square targetSquare,Context context) {
+    public boolean validMove(Square currentSquare, Square targetSquare,GameBoard gameBoard,Context context) {
 
         boolean valid = false;
         int deltaX = targetSquare.getXPosition() - currentSquare.getXPosition();
@@ -30,16 +32,16 @@ public class Pawn extends Piece {
         if (currentSquare.getOccupiedBy() instanceof Pawn) {
 
             Pawn pawn = (Pawn) currentSquare.getOccupiedBy();
-            // Assuming white pawns move up (decreasing X) and black pawns move down (increasing X)
+            // White pawns move up (decreasing X) and black pawns move down (increasing X)
             int direction = currentSquare.getOccupiedBy().getColor().equals("WHITE") ? -1 : 1;
 
             // Check if moving forward to an empty square
-            if (deltaX == direction && deltaY == 0 && targetSquare.getOccupiedBy() == null) {
+            if (deltaX == direction && deltaY == 0 && (targetSquare.getOccupiedBy() == null || !Objects.equals(targetSquare.getOccupiedBy().getColor(), pawn.getColor()))) {
+                Toast.makeText(context, "Captured SOMEONE " + targetSquare.getOccupiedBy().getPiece_tag(), Toast.LENGTH_SHORT).show();
                 valid = true;
             }
             // Check if it's the first move and moving two squares forward
             else if (deltaX == 2 * direction && deltaY == 0 && pawn.isFirstMove() && targetSquare.getOccupiedBy() == null) {
-                Log.d("ChessDebug", String.valueOf(deltaX));
                 // Also check if the path is clear (no piece on the square in between)
                valid = true;
             }

@@ -130,7 +130,7 @@ public class InGameActivity extends AppCompatActivity {
                     } else {
                         // Second click - Attempting to move the piece
                         // Reset if invalid
-                        if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare,this)) {
+                        if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare,gameBoard,this)) {
 
                             if (selectedSquareWrapper.square.getOccupiedBy() instanceof Pawn) {
                                 assert clickedSquare != null; // Just to make sure if somehow the clicked square is NULL
@@ -189,5 +189,23 @@ public class InGameActivity extends AppCompatActivity {
 
     private void moveRook(Square fromSquare, Square toSquare, ImageView fromView, ImageView toView){
 
+        Piece piece = fromSquare.getOccupiedBy(); //The square need to be checked about its content
+
+        // Move the pawn on the board
+        if (piece instanceof Rook){
+            toSquare.setOccupiedBy(fromSquare.getOccupiedBy()); //Change the next square pieces content from null to the previously clicked square
+            toSquare.setOccupied(true);
+            fromSquare.setOccupiedBy(null); //Reset the previous clicked square to default
+            fromSquare.setOccupied(false);
+            fromView.setImageDrawable(null); // Clear the image from the original square
+
+            if (Objects.equals(piece.getColor(), "BLACK")){
+                toView.setImageResource(R.drawable.pawn_black); // Set the image source to the right color of pawn
+            }
+            if (Objects.equals(piece.getColor(),"WHITE")){
+                toView.setImageResource(R.drawable.pawn_white); // Set the image source to the right color of pawn
+            }
+
+        }
     }
 }

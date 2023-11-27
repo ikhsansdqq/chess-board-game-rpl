@@ -18,5 +18,5 @@ public abstract class Piece {
         return piece_tag;
     }
 
-    public abstract boolean validMove(Square square, Square clickedSquare, Context context);
+    public abstract boolean validMove(Square square, Square clickedSquare,GameBoard gameBoard, Context context);
 }
