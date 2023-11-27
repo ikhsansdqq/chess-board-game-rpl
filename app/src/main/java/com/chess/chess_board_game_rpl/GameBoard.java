@@ -28,7 +28,20 @@ public class GameBoard {
                     squares[row][col].setOccupiedBy(pawn_white);
                     squares[row][col].setOccupied(true);
                 }
-                // You might also place pieces here depending on your design
+
+                if (row == 0 && (col == 0 || col == 7)){
+                    piece_tag = "R" + (col + 1) + "B";
+                    Piece rook_black = new Rook("BLACK",piece_tag);
+                    squares[row][col].setOccupiedBy(rook_black);
+                    squares[row][col].setOccupied(true);
+                }
+
+                if (row == 7&& (col == 0 || col == 7)){
+                    piece_tag = "R" + (col + 1) + "W";
+                    Piece rook_black = new Rook("WHITE",piece_tag);
+                    squares[row][col].setOccupiedBy(rook_black);
+                    squares[row][col].setOccupied(true);
+                }
             }
         }
 

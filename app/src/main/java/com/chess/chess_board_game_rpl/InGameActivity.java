@@ -1,7 +1,9 @@
 package com.chess.chess_board_game_rpl;
 
 import android.content.Intent;
+import android.net.ipsec.ike.ChildSessionCallback;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -74,10 +76,18 @@ public class InGameActivity extends AppCompatActivity {
                 assert gameSquare != null;
                 if (gameSquare.isOccupied()) { //Check if the square is occupied
                     Piece piece = gameSquare.getOccupiedBy(); //Get the pieces data if occupied
-                        if (piece instanceof Pawn && Objects.equals(piece.getColor(), "BLACK")) { //Check its Color
-                            square.setImageResource(R.drawable.pawn_black); //Set the square image to the same color as pieces data
-                        }else if (piece instanceof Pawn && Objects.equals(piece.getColor(), "WHITE")) {
-                            square.setImageResource(R.drawable.pawn_white);
+                        if (piece instanceof Pawn){
+                            if (Objects.equals(piece.getColor(), "BLACK")){
+                                square.setImageResource(R.drawable.pawn_black);
+                            }else if (Objects.equals(piece.getColor(),"WHITE")){
+                                square.setImageResource(R.drawable.pawn_white);
+                            }
+                        }else if (piece instanceof Rook){
+                            if (Objects.equals(piece.getColor(), "BLACK")){
+                                square.setImageResource(R.drawable.rook_black);
+                            }else if (Objects.equals(piece.getColor(),"WHITE")){
+                                square.setImageResource(R.drawable.rook_white);
+                            }
                         }
                 }
                 // Set the background color or image depending on the square's color
@@ -100,12 +110,12 @@ public class InGameActivity extends AppCompatActivity {
                     // This condition is true when the player has not yet clicked on a piece, indicating the beginning of the action to select a piece on the board.
                     if (selectedSquareWrapper.square == null) {
                         // First click - Selecting the pieces
-                        if (clickedSquare.isOccupied() && clickedSquare.getOccupiedBy() instanceof Pawn) { // TODO Making it more maintainble by making it universal instead of each pawn
+                        Log.d("ChessDebug", String.valueOf(clickedSquare.getOccupiedBy() instanceof Piece));
+                        if (clickedSquare.isOccupied() & clickedSquare.getOccupiedBy() instanceof Piece) { // TODO Making it more maintainble by making it universal instead of each pawn
                             selectedSquareWrapper.square = clickedSquare; //The wrapper
                             selectedSquareWrapper.view = (ImageView) v;
 
-                            // TODO make a limit
-
+                            // TODO make a view limit
                             /*
                             if (Objects.equals(clickedSquare.getOccupiedBy().getColor(), "BLACK")){
                                 for(int count = selectedSquareWrapper.square.getYPosition() + 1 ; count <= selectedSquareWrapper.square.getYPosition() + 2 ; count++) {
@@ -118,20 +128,22 @@ public class InGameActivity extends AppCompatActivity {
 
                         }
                     } else {
-                        // Second click - Attempting to move the pawn
+                        // Second click - Attempting to move the piece
                         // Reset if invalid
-                        if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare,this)) { //Checking if the move is valid
+                        if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare,this)) {
 
-                            // Move is valid
-                            assert clickedSquare != null; // Just to make sure if somehow the clicked square is NULL
-                            movePawn(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v); //Attempt to move the pawn
-
+                            if (selectedSquareWrapper.square.getOccupiedBy() instanceof Pawn) {
+                                assert clickedSquare != null; // Just to make sure if somehow the clicked square is NULL
+                                movePawn(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v); //At
+                           }else if (selectedSquareWrapper.square.getOccupiedBy() instanceof Rook){
+                                assert clickedSquare != null; // Just to make sure if somehow the clicked square is NULL
+                                moveRook(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v); //At
+                            }
                             selectedSquareWrapper.square = null; // Reset after moving
                             selectedSquareWrapper.view = null;
                         } else {
                             // Move is invalid
                             Toast.makeText(getApplicationContext(), "Invalid move", Toast.LENGTH_SHORT).show();
-
                         }
                     }
                 });
@@ -173,5 +185,9 @@ public class InGameActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    private void moveRook(Square fromSquare, Square toSquare, ImageView fromView, ImageView toView){
+
     }
 }
