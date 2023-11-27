@@ -37,8 +37,12 @@ public class Pawn extends Piece {
 
             // Check if moving forward to an empty square
             if (deltaX == direction && deltaY == 0 && (targetSquare.getOccupiedBy() == null || !Objects.equals(targetSquare.getOccupiedBy().getColor(), pawn.getColor()))) {
-                Toast.makeText(context, "Captured SOMEONE " + targetSquare.getOccupiedBy().getPiece_tag(), Toast.LENGTH_SHORT).show();
                 valid = true;
+
+                if(targetSquare.isOccupied()) {
+                    Toast.makeText(context, "Captured SOMEONE " + targetSquare.getOccupiedBy().getPiece_tag(), Toast.LENGTH_SHORT).show();
+                }
+
             }
             // Check if it's the first move and moving two squares forward
             else if (deltaX == 2 * direction && deltaY == 0 && pawn.isFirstMove() && targetSquare.getOccupiedBy() == null) {
