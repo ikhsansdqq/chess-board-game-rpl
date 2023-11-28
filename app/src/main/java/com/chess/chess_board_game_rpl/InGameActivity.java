@@ -2,7 +2,6 @@ package com.chess.chess_board_game_rpl;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -126,8 +125,12 @@ public class InGameActivity extends AppCompatActivity {
                         // First click - Selecting the pieces
                         assert clickedSquare != null;
                         if (clickedSquare.isOccupied() & clickedSquare.getOccupiedBy() != null) {
+                            if (selectedSquareWrapper.view != null) {
+                                resetHighlighting(selectedSquareWrapper.view,selectedSquareWrapper.square);
+                            }
                             selectedSquareWrapper.square = clickedSquare; //The wrapper
                             selectedSquareWrapper.view = (ImageView) v;
+                            applyHighlighting(selectedSquareWrapper.view);
 
                             // TODO make a view limit
                             /*
@@ -142,31 +145,28 @@ public class InGameActivity extends AppCompatActivity {
 
                         }
                     } else {
-
-                        Log.d("ChessDebug", gameBoard.getCurrentPlayer() + " Nani " + selectedSquareWrapper.square.getOccupiedBy().getColor());
-
-                        Log.d("ChessDebug", String.valueOf(selectedSquareWrapper.square.getOccupiedBy().getColor().equals(gameBoard.getCurrentPlayer())));
                         if (selectedSquareWrapper.square.getOccupiedBy().getColor().equals(gameBoard.getCurrentPlayer())){
                             // Second click - Attempting to move the piece
                             // Reset if invalid
                             if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare,gameBoard,this)) {
                                 assert clickedSquare != null; // Just to make sure if somehow the clicked square is NULL
                                 movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v,pieceImageMap); //At
-                                selectedSquareWrapper.square = null; // Reset
-                                selectedSquareWrapper.view = null;
                                 gameBoard.switchTurn();
 
                             } else {
                                 // Move is invalid
-                                selectedSquareWrapper.square = null; // Reset
-                                selectedSquareWrapper.view = null;
                                 Toast.makeText(getApplicationContext(), "Invalid move", Toast.LENGTH_SHORT).show();
                             }
                         }else{
-                            selectedSquareWrapper.square = null; // Reset
-                            selectedSquareWrapper.view = null;
                             Toast.makeText(getApplicationContext(),"Not Your Turn Currently " + gameBoard.getCurrentPlayer()+ " Turn",Toast.LENGTH_SHORT).show();
                         }
+                        resetHighlighting(selectedSquareWrapper.view,selectedSquareWrapper.square);
+                        selectedSquareWrapper.square = null; // Reset
+                        selectedSquareWrapper.view = null;
+
+
+
+
                     }
                 });
 
@@ -204,5 +204,19 @@ public class InGameActivity extends AppCompatActivity {
         fromSquare.setOccupied(false);
         fromView.setImageDrawable(null); // Clear the image from the original square
 
+    }
+
+    public void applyHighlighting(ImageView pieceView) {
+        pieceView.setBackgroundResource(R.drawable.selected_piece_border);
+    }
+
+    public void resetHighlighting(ImageView pieceView,Square square) {
+        int row = square.getXPosition();
+        int col = square.getYPosition();
+        if ((row + col) % 2 == 0) {
+            pieceView.setBackgroundColor(getResources().getColor(R.color.light_square_color)); // Reset to light square color
+        } else {
+            pieceView.setBackgroundColor(getResources().getColor(R.color.dark_square_color)); // Reset to dark square color
+        }
     }
 }
