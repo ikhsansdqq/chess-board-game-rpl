@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /* public class InGameActivity extends AppCompatActivity {
 
@@ -70,6 +69,10 @@ public class InGameActivity extends AppCompatActivity {
         pieceImageMap.put("KNIGHT_WHITE", R.drawable.knight_white);
         pieceImageMap.put("BISHOP_WHITE", R.drawable.bishop_white);
         pieceImageMap.put("BISHOP_BLACK", R.drawable.bishop_black);
+        pieceImageMap.put("KING_WHITE", R.drawable.king_white);
+        pieceImageMap.put("KING_BLACK", R.drawable.king_black);
+        pieceImageMap.put("QUEEN_WHITE", R.drawable.queen_white);
+        pieceImageMap.put("QUEEN_BLACK", R.drawable.queen_black);
         // Add other pieces here
 
         GameBoard gameBoard = new GameBoard(); //Initialize the board
@@ -96,32 +99,13 @@ public class InGameActivity extends AppCompatActivity {
                 assert gameSquare != null;
                 if (gameSquare.isOccupied()) { //Check if the square is occupied
                     Piece piece = gameSquare.getOccupiedBy(); //Get the pieces data if occupied
-                        if (piece instanceof Pawn){
-                            if (Objects.equals(piece.getColor(), "BLACK")){
-                                square.setImageResource(R.drawable.pawn_black);
-                            }else if (Objects.equals(piece.getColor(),"WHITE")){
-                                square.setImageResource(R.drawable.pawn_white);
-                            }
-                        }else if (piece instanceof Rook){
-                            if (Objects.equals(piece.getColor(), "BLACK")){
-                                square.setImageResource(R.drawable.rook_black);
-                            }else if (Objects.equals(piece.getColor(),"WHITE")){
-                                square.setImageResource(R.drawable.rook_white);
-                            }
-                        }else if (piece instanceof Knight){
-                            if (Objects.equals(piece.getColor(), "BLACK")){
-                                square.setImageResource(R.drawable.knight_black);
-                            }else if (Objects.equals(piece.getColor(),"WHITE")){
-                                square.setImageResource(R.drawable.knight_white);
-                            }
-                        }else if (piece instanceof Bishop){
-                            if (Objects.equals(piece.getColor(), "BLACK")){
-                                square.setImageResource(R.drawable.bishop_black);
-                            }else if (Objects.equals(piece.getColor(),"WHITE")){
-                                square.setImageResource(R.drawable.bishop_white);
-                            }
-                        }
+                    String pieceType = piece.getClass().getSimpleName().toUpperCase(); // e.g., "PAWN", "ROOK", "KNIGHT"
+                    String pieceColor = piece.getColor().toUpperCase(); // e.g., "BLACK", "WHITE"
+                    String key = pieceType + "_" + pieceColor; // e.g., "PAWN_BLACK", "ROOK_WHITE"
 
+                    if (pieceImageMap.containsKey(key)) {
+                        square.setImageResource((Integer) pieceImageMap.get(key));
+                    }
                 }
 
                 // Handle when the square is clicked

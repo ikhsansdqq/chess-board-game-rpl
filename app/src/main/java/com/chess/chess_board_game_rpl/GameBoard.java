@@ -31,7 +31,15 @@ public class GameBoard {
                     addPieceToSquare(row, col, "B", "BLACK", squares);
                 } else if (row == 7 && (col == 2 || col == 5)) {
                     addPieceToSquare(row, col, "B", "WHITE", squares);
-              }
+                } else if (row == 0 && (col == 3)) {
+                    addPieceToSquare(row, col, "KG", "BLACK", squares);
+                } else if (row == 7 && (col == 4)) {
+                    addPieceToSquare(row, col, "KG", "WHITE", squares);
+                } else if (row == 0 && (col == 4)) {
+                    addPieceToSquare(row, col, "QN", "BLACK", squares);
+                } else if (row == 7 && (col == 3)) {
+                    addPieceToSquare(row, col, "QN", "WHITE", squares);
+                }
                 // Add other pieces like bishops, queens, and kings
             }
         }
@@ -54,7 +62,13 @@ public class GameBoard {
             case "B" :
                 piece = new Bishop(color,piece_tag);
                 break;
-            // Add cases for other piece types
+            case "KG" :
+                piece = new King(color,piece_tag);
+                break;
+            case "QN" :
+                piece = new Queen(color,piece_tag);
+                break;
+                // Add cases for other piece types
             default:
                 return; // or throw an exception
         }
