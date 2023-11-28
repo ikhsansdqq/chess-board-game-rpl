@@ -68,6 +68,8 @@ public class InGameActivity extends AppCompatActivity {
         pieceImageMap.put("ROOK_WHITE", R.drawable.rook_white);
         pieceImageMap.put("KNIGHT_BLACK", R.drawable.knight_black);
         pieceImageMap.put("KNIGHT_WHITE", R.drawable.knight_white);
+        pieceImageMap.put("BISHOP_WHITE", R.drawable.bishop_white);
+        pieceImageMap.put("BISHOP_BLACK", R.drawable.bishop_black);
         // Add other pieces here
 
         GameBoard gameBoard = new GameBoard(); //Initialize the board
@@ -112,7 +114,14 @@ public class InGameActivity extends AppCompatActivity {
                             }else if (Objects.equals(piece.getColor(),"WHITE")){
                                 square.setImageResource(R.drawable.knight_white);
                             }
+                        }else if (piece instanceof Bishop){
+                            if (Objects.equals(piece.getColor(), "BLACK")){
+                                square.setImageResource(R.drawable.bishop_black);
+                            }else if (Objects.equals(piece.getColor(),"WHITE")){
+                                square.setImageResource(R.drawable.bishop_white);
+                            }
                         }
+
                 }
 
                 // Handle when the square is clicked

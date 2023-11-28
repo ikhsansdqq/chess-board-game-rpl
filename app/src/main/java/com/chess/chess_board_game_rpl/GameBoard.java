@@ -27,7 +27,11 @@ public class GameBoard {
                     addPieceToSquare(row, col, "K", "BLACK", squares);
                 } else if (row == 7 && (col == 1 || col == 6)) {
                     addPieceToSquare(row, col, "K", "WHITE", squares);
-                }
+                } else if (row == 0 && (col == 2 || col == 5)) {
+                    addPieceToSquare(row, col, "B", "BLACK", squares);
+                } else if (row == 7 && (col == 2 || col == 5)) {
+                    addPieceToSquare(row, col, "B", "WHITE", squares);
+              }
                 // Add other pieces like bishops, queens, and kings
             }
         }
@@ -47,6 +51,9 @@ public class GameBoard {
             case "K":
                 piece = new Knight(color, pieceTag);
                 break;
+            case "B" :
+                piece = new Bishop(color,piece_tag);
+                break;
             // Add cases for other piece types
             default:
                 return; // or throw an exception
@@ -55,7 +62,6 @@ public class GameBoard {
         squares[row][col].setOccupiedBy(piece);
         squares[row][col].setOccupied(true);
     }
-
 
     public static Square getSquare(int x, int y) {
         if (x >= 0 && x < 8 && y >= 0 && y < 8) {
