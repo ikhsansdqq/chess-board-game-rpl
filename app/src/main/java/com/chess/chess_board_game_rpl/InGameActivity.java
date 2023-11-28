@@ -2,6 +2,7 @@ package com.chess.chess_board_game_rpl;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -116,7 +117,7 @@ public class InGameActivity extends AppCompatActivity {
                     int clickedCol = Integer.parseInt(parts[1]);
 
                     Square clickedSquare = gameBoard.getSquare(clickedRow, clickedCol); //Get the square data from clicked square
-                    //Square changeSquare;
+                    // Square changeSquare;
 
                     // Check if no piece is currently selected
                     // This condition is true when the player has not yet clicked on a piece, indicating the beginning of the action to select a piece on the board.
@@ -141,18 +142,30 @@ public class InGameActivity extends AppCompatActivity {
 
                         }
                     } else {
-                        // Second click - Attempting to move the piece
-                        // Reset if invalid
-                        if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare,gameBoard,this)) {
 
-                            assert clickedSquare != null; // Just to make sure if somehow the clicked square is NULL
-                            movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v,pieceImageMap); //At
-                            selectedSquareWrapper.square = null; // Reset after moving
+                        Log.d("ChessDebug", gameBoard.getCurrentPlayer() + " Nani " + selectedSquareWrapper.square.getOccupiedBy().getColor());
+
+                        Log.d("ChessDebug", String.valueOf(selectedSquareWrapper.square.getOccupiedBy().getColor().equals(gameBoard.getCurrentPlayer())));
+                        if (selectedSquareWrapper.square.getOccupiedBy().getColor().equals(gameBoard.getCurrentPlayer())){
+                            // Second click - Attempting to move the piece
+                            // Reset if invalid
+                            if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare,gameBoard,this)) {
+                                assert clickedSquare != null; // Just to make sure if somehow the clicked square is NULL
+                                movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v,pieceImageMap); //At
+                                selectedSquareWrapper.square = null; // Reset
+                                selectedSquareWrapper.view = null;
+                                gameBoard.switchTurn();
+
+                            } else {
+                                // Move is invalid
+                                selectedSquareWrapper.square = null; // Reset
+                                selectedSquareWrapper.view = null;
+                                Toast.makeText(getApplicationContext(), "Invalid move", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            selectedSquareWrapper.square = null; // Reset
                             selectedSquareWrapper.view = null;
-
-                        } else {
-                            // Move is invalid
-                            Toast.makeText(getApplicationContext(), "Invalid move", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Not Your Turn Currently " + gameBoard.getCurrentPlayer()+ " Turn",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

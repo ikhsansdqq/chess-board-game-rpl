@@ -3,10 +3,21 @@ package com.chess.chess_board_game_rpl;
 public class GameBoard {
 
     private static Square[][] squares = new Square[8][8];
-    private String piece_tag;
+
+    private String currentPlayer;
 
     public GameBoard() {
+        this.currentPlayer = "WHITE";
         initializeBoard();
+    }
+    // Method to switch turns
+    public void switchTurn() {
+       this.currentPlayer = currentPlayer.equals("WHITE") ? "BLACK" : "WHITE";
+    }
+
+    // Method to get the current player
+    public String getCurrentPlayer() {
+        return currentPlayer;
     }
 
     private void initializeBoard() {
@@ -60,15 +71,14 @@ public class GameBoard {
                 piece = new Knight(color, pieceTag);
                 break;
             case "B" :
-                piece = new Bishop(color,piece_tag);
+                piece = new Bishop(color,pieceTag);
                 break;
             case "KG" :
-                piece = new King(color,piece_tag);
+                piece = new King(color,pieceTag);
                 break;
             case "QN" :
-                piece = new Queen(color,piece_tag);
+                piece = new Queen(color,pieceTag);
                 break;
-                // Add cases for other piece types
             default:
                 return; // or throw an exception
         }

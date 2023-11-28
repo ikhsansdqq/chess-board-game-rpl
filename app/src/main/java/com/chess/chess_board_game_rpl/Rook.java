@@ -1,7 +1,6 @@
 package com.chess.chess_board_game_rpl;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 public class Rook extends Piece{
