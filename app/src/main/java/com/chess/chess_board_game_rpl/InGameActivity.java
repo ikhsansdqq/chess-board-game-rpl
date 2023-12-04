@@ -168,9 +168,6 @@ public class InGameActivity extends AppCompatActivity {
                         selectedSquareWrapper.square = null; // Reset
                         selectedSquareWrapper.view = null;
 
-
-
-
                     }
                 });
 

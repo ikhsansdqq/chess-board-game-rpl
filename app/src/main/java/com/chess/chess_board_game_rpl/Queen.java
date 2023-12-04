@@ -1,6 +1,7 @@
 package com.chess.chess_board_game_rpl;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 public class Queen extends Piece {
@@ -11,31 +12,50 @@ public class Queen extends Piece {
 
     @Override
     public boolean validMove(Square currentSquare, Square targetSquare, GameBoard gameBoard, Context context) {
-        int deltaX = targetSquare.getXPosition() - currentSquare.getXPosition();
-        int deltaY = targetSquare.getYPosition() - currentSquare.getYPosition();
+        // Check for horizontal or vertical move
+        boolean isHorizontalMove = currentSquare.getYPosition() == targetSquare.getYPosition();
+        boolean isVerticalMove = currentSquare.getXPosition() == targetSquare.getXPosition();
+        int deltaX = Math.abs(targetSquare.getXPosition() - currentSquare.getXPosition());
+        int deltaY = Math.abs(targetSquare.getYPosition() - currentSquare.getYPosition());
 
-        boolean isHorizontalMove = deltaY == 0;
-        boolean isVerticalMove = deltaX == 0;
-        boolean isDiagonalMove = Math.abs(deltaX) == Math.abs(deltaY);
-
-        // Queen must move either horizontally, vertically, or diagonally
-        if (!(isHorizontalMove || isVerticalMove || isDiagonalMove)) {
+        // Queen must move either horizontally or vertically or diagonal
+        if (!isHorizontalMove && !isVerticalMove && (deltaX != deltaY)) {
             return false;
         }
 
         // Check for obstacles along the path
-        int stepX = Integer.compare(targetSquare.getXPosition(), currentSquare.getXPosition());
-        int stepY = Integer.compare(targetSquare.getYPosition(), currentSquare.getYPosition());
-
-        int x = currentSquare.getXPosition();
-        int y = currentSquare.getYPosition();
-
-        while ((x += stepX) != targetSquare.getXPosition() || (y += stepY) != targetSquare.getYPosition()) {
-            if (gameBoard.getSquare(x, y).isOccupied()) {
-                return false; // Path is blocked
+        if (isHorizontalMove) {
+            int startY = Math.min(currentSquare.getXPosition(), targetSquare.getXPosition());
+            int endY = Math.max(currentSquare.getXPosition(), targetSquare.getXPosition());
+            for (int x = startY + 1; x < endY; x++) {
+                if (gameBoard.getSquare(x, currentSquare.getYPosition()).isOccupied() ) {
+                    return false; // Path is blocked
+                }
             }
-            x += stepX;
-            y += stepY;
+        } else if (isVerticalMove) {
+            int startX = Math.min(currentSquare.getYPosition(), targetSquare.getYPosition());
+            int endX = Math.max(currentSquare.getYPosition(), targetSquare.getYPosition());
+            for (int y = startX + 1; y < endX; y++) {
+                if (gameBoard.getSquare(currentSquare.getXPosition(), y).isOccupied()) {
+                    return false; // Path is blocked
+                }
+            }
+        } else if(deltaX == deltaY){
+            // Check for obstacles along the diagonal path
+            int startX = currentSquare.getXPosition();
+            int startY = currentSquare.getYPosition();
+            int endX = targetSquare.getXPosition();
+            int endY = targetSquare.getYPosition();
+
+            int stepX = (endX > startX) ? 1 : -1; // Determine the direction of movement along the X-axis
+            int stepY = (endY > startY) ? 1 : -1; // Determine the direction of movement along the Y-axis
+
+            for (int x = startX + stepX, y = startY + stepY; x != endX; x += stepX, y += stepY) {
+                if (gameBoard.getSquare(x, y).isOccupied()) {
+                    Log.d("ChessDebug","PATH IS BLOCKED REEEEEE");
+                    return false; // Path is blocked
+                }
+            }
         }
 
         // Check if the target square is occupied by a piece of the same color
@@ -49,6 +69,7 @@ public class Queen extends Piece {
         }
 
         return true; // The move is valid
+
     }
 
 }

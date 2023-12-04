@@ -29,7 +29,7 @@ public class Bishop extends Piece{
         int stepY = (endY > startY) ? 1 : -1; // Determine the direction of movement along the Y-axis
 
         for (int x = startX + stepX, y = startY + stepY; x != endX; x += stepX, y += stepY) {
-            if (gameBoard.getSquare(x, currentSquare.getYPosition()).isOccupied()) {
+            if (gameBoard.getSquare(x, y).isOccupied()) {
                 return false; // Path is blocked
             }
         }
