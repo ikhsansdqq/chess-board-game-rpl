@@ -27,11 +27,11 @@ public class Queen extends Piece {
         int stepX = Integer.compare(targetSquare.getXPosition(), currentSquare.getXPosition());
         int stepY = Integer.compare(targetSquare.getYPosition(), currentSquare.getYPosition());
 
-        int x = currentSquare.getXPosition() + stepX;
-        int y = currentSquare.getYPosition() + stepY;
+        int x = currentSquare.getXPosition();
+        int y = currentSquare.getYPosition();
 
-        while (x != targetSquare.getXPosition() || y != targetSquare.getYPosition()) {
-            if (gameBoard.getSquare(currentSquare.getXPosition(), y).isOccupied()) {
+        while ((x += stepX) != targetSquare.getXPosition() || (y += stepY) != targetSquare.getYPosition()) {
+            if (gameBoard.getSquare(x, y).isOccupied()) {
                 return false; // Path is blocked
             }
             x += stepX;

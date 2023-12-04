@@ -1,7 +1,10 @@
 package com.chess.chess_board_game_rpl;
 
+import static com.chess.chess_board_game_rpl.King.isKingInCheck;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -148,9 +151,10 @@ public class InGameActivity extends AppCompatActivity {
                         if (selectedSquareWrapper.square.getOccupiedBy().getColor().equals(gameBoard.getCurrentPlayer())){
                             // Second click - Attempting to move the piece
                             // Reset if invalid
+                            Log.d("ChessDebug", String.valueOf(selectedSquareWrapper.square.getOccupiedBy()));
                             if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare,gameBoard,this)) {
                                 assert clickedSquare != null; // Just to make sure if somehow the clicked square is NULL
-                                movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v,pieceImageMap); //At
+                                movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v,pieceImageMap,gameBoard); //At
                                 gameBoard.switchTurn();
 
                             } else {
@@ -181,7 +185,7 @@ public class InGameActivity extends AppCompatActivity {
             }
         }
     }
-    private void movePiece(Square fromSquare, Square toSquare, ImageView fromView, ImageView toView,Map pieceImageMap) {
+    private void movePiece(Square fromSquare, Square toSquare, ImageView fromView, ImageView toView,Map pieceImageMap,GameBoard gameBoard) {
 
         Piece piece = fromSquare.getOccupiedBy(); //The square need to be checked about its content
         String pieceType = piece.getClass().getSimpleName().toUpperCase(); // e.g., "PAWN", "ROOK", "KNIGHT"
@@ -193,6 +197,9 @@ public class InGameActivity extends AppCompatActivity {
             ((Pawn) piece).setFirstMove(false);
         }
 
+        if (piece instanceof King) {
+            gameBoard.setKingSquare(piece.getColor(), toSquare);
+        }
         // Move the pieces
         if (pieceImageMap.containsKey(key)) {
             toView.setImageResource((Integer) pieceImageMap.get(key));
@@ -204,6 +211,19 @@ public class InGameActivity extends AppCompatActivity {
         fromSquare.setOccupied(false);
         fromView.setImageDrawable(null); // Clear the image from the original square
 
+        checkForCheckAndCheckmate(gameBoard);
+    }
+
+    private void checkForCheckAndCheckmate(GameBoard gameBoard) {
+        String opponentColor = gameBoard.getCurrentPlayer().equals("WHITE") ? "BLACK" : "WHITE";
+        if (isKingInCheck(gameBoard, opponentColor)) {
+            Log.d("ChessDebug", String.valueOf(isKingInCheck(gameBoard,opponentColor)));
+            if (King.isCheckmate(gameBoard, opponentColor)) {
+                Toast.makeText(getApplicationContext(),"CHECK MATE" + gameBoard.getCurrentPlayer(),Toast.LENGTH_SHORT).show();
+            } else {
+                // Handle check scenario (e.g., notify players, highlight king)
+            }
+        }
     }
 
     public void applyHighlighting(ImageView pieceView) {
