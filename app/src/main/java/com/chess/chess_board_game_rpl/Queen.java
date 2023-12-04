@@ -1,7 +1,6 @@
 package com.chess.chess_board_game_rpl;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 public class Queen extends Piece {
@@ -40,7 +39,7 @@ public class Queen extends Piece {
                     return false; // Path is blocked
                 }
             }
-        } else if(deltaX == deltaY){
+        } else {
             // Check for obstacles along the diagonal path
             int startX = currentSquare.getXPosition();
             int startY = currentSquare.getYPosition();
@@ -52,7 +51,6 @@ public class Queen extends Piece {
 
             for (int x = startX + stepX, y = startY + stepY; x != endX; x += stepX, y += stepY) {
                 if (gameBoard.getSquare(x, y).isOccupied()) {
-                    Log.d("ChessDebug","PATH IS BLOCKED REEEEEE");
                     return false; // Path is blocked
                 }
             }
