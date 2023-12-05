@@ -7,31 +7,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
 import java.util.Map;
-
-/* public class InGameActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_in_game);
-
-        Toolbar toolbar = findViewById(R.id.my_toolbar);
-        toolbar.setTitle("Game Activity");
-        toolbar.setSubtitle("In game for: 12 minutes");
-        setSupportActionBar(toolbar);
-
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-}
-
- */
 
 public class InGameActivity extends AppCompatActivity {
 
@@ -48,6 +30,10 @@ public class InGameActivity extends AppCompatActivity {
         setupGameBoard();
         //setGameDifficulty(difficultyLevel);
 
+    }
+    private void updateTurnIndicator(String currentPlayer) {
+        TextView turnIndicator = findViewById(R.id.turnIndicator);
+        turnIndicator.setText(currentPlayer + "'s Turn");
     }
 
     public static class SquareWrapper { //This is the wrapper for clicked square
@@ -107,7 +93,7 @@ public class InGameActivity extends AppCompatActivity {
                     String key = pieceType + "_" + pieceColor; // e.g., "PAWN_BLACK", "ROOK_WHITE"
 
                     if (pieceImageMap.containsKey(key)) {
-                        square.setImageResource((Integer) pieceImageMap.get(key));
+                        square.setImageResource(pieceImageMap.get(key));
                     }
                     if (gameSquare.getOccupiedBy() instanceof King) {
                         if (gameSquare.getOccupiedBy().getColor().equals("BLACK")) {
@@ -167,6 +153,7 @@ public class InGameActivity extends AppCompatActivity {
                             if (isValidMove(selectedPiece, selectedSquareWrapper.square, clickedSquare, gameBoard, clickedPieceColor)) {
                                 movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v, pieceImageMap, gameBoard, this);
                                 gameBoard.switchTurn();
+                                updateTurnIndicator(gameBoard.getCurrentPlayer());
                             } else {
                                 showToast("Invalid move");
                             }
@@ -222,7 +209,6 @@ public class InGameActivity extends AppCompatActivity {
         fromSquare.setOccupied(false);
         fromView.setImageDrawable(null); // Clear the image from the original square
 
-
         checkForCheckAndCheckmate(gameBoard);
     }
     private void checkForCheckAndCheckmate(GameBoard gameBoard) {
@@ -230,7 +216,7 @@ public class InGameActivity extends AppCompatActivity {
         if (isKingInCheck(gameBoard, opponentColor)) {
             Log.d("ChessDebug","KING IN CHECK");
             if (King.isCheckmate(gameBoard, opponentColor)) {
-                Toast.makeText(getApplicationContext(),"CHECK MATE" + gameBoard.getCurrentPlayer(),Toast.LENGTH_SHORT).show();
+                showToast("KING CHECK MATED");
             } else {
                 // Handle check scenario (e.g., notify players, highlight king)
             }

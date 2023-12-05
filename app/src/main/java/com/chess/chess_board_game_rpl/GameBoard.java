@@ -46,11 +46,11 @@ public class GameBoard {
                     addPieceToSquare(row, col, "B", "WHITE", squares);
                 } else if (row == 0 && (col == 3)) {
                     addPieceToSquare(row, col, "KG", "BLACK", squares);
-                } else if (row == 7 && (col == 4)) {
+                } else if (row == 7 && (col == 3)) {
                     addPieceToSquare(row, col, "KG", "WHITE", squares);
                 } else if (row == 0 && (col == 4)) {
                     addPieceToSquare(row, col, "QN", "BLACK", squares);
-                } else if (row == 7 && (col == 3)) {
+                } else if (row == 7 && (col == 4)) {
                     addPieceToSquare(row, col, "QN", "WHITE", squares);
                 }
             }

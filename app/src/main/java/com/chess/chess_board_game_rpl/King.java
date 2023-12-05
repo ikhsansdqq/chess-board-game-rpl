@@ -56,7 +56,6 @@ public class King extends Piece{
                 if (dx == 0 && dy == 0) continue;
                 Square newSquare = gameBoard.getSquare(kingSquare.getXPosition() + dx, kingSquare.getYPosition() + dy);
                 if (newSquare != null){
-                    Log.d("ChessDebug","NEW SQUARE IS NOT NULL");
                     if (king.validMove(kingSquare, newSquare, gameBoard) && !King.isKingInCheckAfterMove(gameBoard, kingColor, kingSquare, newSquare)) {
                         Log.d("ChessDebug","KING CAN ESCAPE REEEEEEEEEEE");
                         kingCheckMate = false; // King can escape
