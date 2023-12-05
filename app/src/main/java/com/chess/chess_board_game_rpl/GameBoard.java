@@ -1,7 +1,5 @@
 package com.chess.chess_board_game_rpl;
 
-import android.util.Log;
-
 public class GameBoard {
 
     private Square whiteKingSquare;
@@ -48,8 +46,10 @@ public class GameBoard {
                     addPieceToSquare(row, col, "B", "WHITE", squares);
                 } else if (row == 0 && (col == 3)) {
                     addPieceToSquare(row, col, "KG", "BLACK", squares);
+                    setKingSquare("BLACK",new Square(3,0));
                 } else if (row == 7 && (col == 4)) {
                     addPieceToSquare(row, col, "KG", "WHITE", squares);
+                    setKingSquare("WHITE",new Square(4,7));
                 } else if (row == 0 && (col == 4)) {
                     addPieceToSquare(row, col, "QN", "BLACK", squares);
                 } else if (row == 7 && (col == 3)) {
@@ -61,7 +61,6 @@ public class GameBoard {
 
     private void addPieceToSquare(int row, int col, String type, String color, Square[][] squares) {
         String pieceTag = type + (col + 1) + (color.equals("BLACK") ? "B" : "W");
-        Log.d("ChessDebug",pieceTag);
         Piece piece;
 
         switch (type) {

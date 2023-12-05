@@ -1,14 +1,11 @@
 package com.chess.chess_board_game_rpl;
 
-import android.content.Context;
-import android.widget.Toast;
-
 public class Rook extends Piece{
     public Rook(String color, String piece_tag) {
         super(color, piece_tag);
     }
     @Override
-    public boolean validMove(Square currentSquare, Square targetSquare,GameBoard gameBoard, Context context) {
+    public boolean validMove(Square currentSquare, Square targetSquare,GameBoard gameBoard) {
         // Check for horizontal or vertical move
         boolean isHorizontalMove = currentSquare.getYPosition() == targetSquare.getYPosition();
         boolean isVerticalMove = currentSquare.getXPosition() == targetSquare.getXPosition();
@@ -42,10 +39,6 @@ public class Rook extends Piece{
             return false; // Cannot capture your own piece
         }
 
-        // If capturing, show a Toast message
-        if (targetSquare.isOccupied() && !targetSquare.getOccupiedBy().getColor().equals(currentSquare.getOccupiedBy().getColor())) {
-            Toast.makeText(context, "Rook captured " + targetSquare.getOccupiedBy().getPiece_tag(), Toast.LENGTH_SHORT).show();
-        }
 
         return true; // The move is valid
     }

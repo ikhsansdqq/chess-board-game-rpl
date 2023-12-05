@@ -1,9 +1,5 @@
 package com.chess.chess_board_game_rpl;
 
-import android.util.Log;
-import android.widget.Toast;
-import android.content.Context;
-
 import java.util.Objects;
 
 public class Pawn extends Piece {
@@ -23,7 +19,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean validMove(Square currentSquare, Square targetSquare,GameBoard gameBoard,Context context) {
+    public boolean validMove(Square currentSquare, Square targetSquare,GameBoard gameBoard) {
 
         boolean valid = false;
         int deltaX = targetSquare.getXPosition() - currentSquare.getXPosition();
@@ -39,10 +35,6 @@ public class Pawn extends Piece {
             if (deltaX == direction && deltaY == 0 && (targetSquare.getOccupiedBy() == null || !Objects.equals(targetSquare.getOccupiedBy().getColor(), pawn.getColor()))) {
                 valid = true;
 
-                if(targetSquare.isOccupied()) {
-                    Toast.makeText(context, "Captured SOMEONE " + targetSquare.getOccupiedBy().getPiece_tag(), Toast.LENGTH_SHORT).show();
-                }
-
             }
             // Check if it's the first move and moving two squares forward
             else if (deltaX == 2 * direction && deltaY == 0 && pawn.isFirstMove() && targetSquare.getOccupiedBy() == null) {
@@ -52,7 +44,6 @@ public class Pawn extends Piece {
             // Check for diagonal capture
             else if (deltaX == direction && Math.abs(deltaY) == 1 && targetSquare.getOccupiedBy() != null && !targetSquare.getOccupiedBy().getColor().equals(currentSquare.getOccupiedBy().getColor())) {
                 valid = true;
-                Toast.makeText(context, "Captured SOMEONE " + targetSquare.getOccupiedBy().getPiece_tag(), Toast.LENGTH_SHORT).show();
             }
         }
         return valid;

@@ -151,10 +151,9 @@ public class InGameActivity extends AppCompatActivity {
                         if (selectedSquareWrapper.square.getOccupiedBy().getColor().equals(gameBoard.getCurrentPlayer())){
                             // Second click - Attempting to move the piece
                             // Reset if invalid
-                            Log.d("ChessDebug", String.valueOf(selectedSquareWrapper.square.getOccupiedBy()));
-                            if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare,gameBoard,this)) {
+                            if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare,gameBoard)) {
                                 assert clickedSquare != null; // Just to make sure if somehow the clicked square is NULL
-                                movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v,pieceImageMap,gameBoard); //At
+                                movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v,pieceImageMap,gameBoard,this); //At
                                 gameBoard.switchTurn();
 
                             } else {
@@ -182,7 +181,7 @@ public class InGameActivity extends AppCompatActivity {
             }
         }
     }
-    private void movePiece(Square fromSquare, Square toSquare, ImageView fromView, ImageView toView,Map pieceImageMap,GameBoard gameBoard) {
+    private void movePiece(Square fromSquare, Square toSquare, ImageView fromView, ImageView toView, Map pieceImageMap, GameBoard gameBoard, InGameActivity inGameActivity) {
 
         Piece piece = fromSquare.getOccupiedBy(); //The square need to be checked about its content
         String pieceType = piece.getClass().getSimpleName().toUpperCase(); // e.g., "PAWN", "ROOK", "KNIGHT"
@@ -202,11 +201,17 @@ public class InGameActivity extends AppCompatActivity {
             toView.setImageResource((Integer) pieceImageMap.get(key));
         }
 
+        //When it kill something
+
+        if (toSquare.isOccupied() && !toSquare.getOccupiedBy().getColor().equals(fromSquare.getOccupiedBy().getColor())) {
+            Toast.makeText(inGameActivity, fromSquare.getOccupiedBy().getPiece_tag() + " captured " +toSquare.getOccupiedBy().getPiece_tag(), Toast.LENGTH_SHORT).show();
+        }
         toSquare.setOccupiedBy(fromSquare.getOccupiedBy()); //Change the next square pieces content from null to the previously clicked square
         toSquare.setOccupied(true);
         fromSquare.setOccupiedBy(null); //Reset the previous clicked square to default
         fromSquare.setOccupied(false);
         fromView.setImageDrawable(null); // Clear the image from the original square
+
 
         checkForCheckAndCheckmate(gameBoard);
     }
@@ -214,7 +219,7 @@ public class InGameActivity extends AppCompatActivity {
     private void checkForCheckAndCheckmate(GameBoard gameBoard) {
         String opponentColor = gameBoard.getCurrentPlayer().equals("WHITE") ? "BLACK" : "WHITE";
         if (isKingInCheck(gameBoard, opponentColor)) {
-            Log.d("ChessDebug", String.valueOf(isKingInCheck(gameBoard,opponentColor)));
+            Log.d("ChessDebug","KING IN CHECK");
             if (King.isCheckmate(gameBoard, opponentColor)) {
                 Toast.makeText(getApplicationContext(),"CHECK MATE" + gameBoard.getCurrentPlayer(),Toast.LENGTH_SHORT).show();
             } else {
