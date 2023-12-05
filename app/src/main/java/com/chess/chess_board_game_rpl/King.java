@@ -1,5 +1,7 @@
 package com.chess.chess_board_game_rpl;
 
+import android.util.Log;
+
 public class King extends Piece{
     public King(String color, String piece_tag) {
         super(color, piece_tag);
@@ -15,10 +17,6 @@ public class King extends Piece{
             return false;
         }
 
-        // Check if the target square is occupied by a piece of the same color
-        if (targetSquare.isOccupied() && targetSquare.getOccupiedBy().getColor().equals(currentSquare.getOccupiedBy().getColor())) {
-            return false; // Cannot capture your own piece
-        }
         return true; // The move is valid
     }
 
@@ -48,15 +46,21 @@ public class King extends Piece{
     public static boolean isCheckmate(GameBoard gameBoard, String kingColor) {
         boolean kingCheckMate = true;
         Square kingSquare = gameBoard.getKingSquare(kingColor);
-        King king = (King) kingSquare.getOccupiedBy();
+        int kingRow = kingSquare.getXPosition();
+        int kingCol = kingSquare.getYPosition();
+        King king = (King) gameBoard.getSquare(kingRow,kingCol).getOccupiedBy();
 
         // Check if King can escape
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
                 if (dx == 0 && dy == 0) continue;
                 Square newSquare = gameBoard.getSquare(kingSquare.getXPosition() + dx, kingSquare.getYPosition() + dy);
-                if (newSquare != null && king.validMove(kingSquare, newSquare, gameBoard) && !King.isKingInCheckAfterMove(gameBoard, kingColor, kingSquare, newSquare)) {
-                    kingCheckMate = false; // King can escape
+                if (newSquare != null){
+                    Log.d("ChessDebug","NEW SQUARE IS NOT NULL");
+                    if (king.validMove(kingSquare, newSquare, gameBoard) && !King.isKingInCheckAfterMove(gameBoard, kingColor, kingSquare, newSquare)) {
+                        Log.d("ChessDebug","KING CAN ESCAPE REEEEEEEEEEE");
+                        kingCheckMate = false; // King can escape
+                    }
                 }
             }
         }

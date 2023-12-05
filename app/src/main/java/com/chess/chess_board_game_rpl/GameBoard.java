@@ -46,10 +46,8 @@ public class GameBoard {
                     addPieceToSquare(row, col, "B", "WHITE", squares);
                 } else if (row == 0 && (col == 3)) {
                     addPieceToSquare(row, col, "KG", "BLACK", squares);
-                    setKingSquare("BLACK",new Square(3,0));
                 } else if (row == 7 && (col == 4)) {
                     addPieceToSquare(row, col, "KG", "WHITE", squares);
-                    setKingSquare("WHITE",new Square(4,7));
                 } else if (row == 0 && (col == 4)) {
                     addPieceToSquare(row, col, "QN", "BLACK", squares);
                 } else if (row == 7 && (col == 3)) {
@@ -90,7 +88,7 @@ public class GameBoard {
         squares[row][col].setOccupied(true);
     }
 
-    public static Square getSquare(int x, int y) {
+    public Square getSquare(int x, int y) {
         if (x >= 0 && x < 8 && y >= 0 && y < 8) {
             return squares[x][y];
         } else {

@@ -1,6 +1,7 @@
 package com.chess.chess_board_game_rpl;
 
 public abstract class Piece {
+
     protected String color;
     protected String piece_tag;
     public Piece(String color,String piece_tag) {

@@ -86,7 +86,7 @@ public class InGameActivity extends AppCompatActivity {
             for (int col = 0; col < 8; col++) {
 
                 ImageView square = new ImageView(this);
-                Square gameSquare = GameBoard.getSquare(row, col); //Get the square data from row and column
+                Square gameSquare = gameBoard.getSquare(row, col); //Get the square data from row and column
                 squareTag = row + "," + col; //Square tag consist of row,col for example row 1 and column 1 will be 1,1
 
                 square.setTag(squareTag); //Set the tag
@@ -109,6 +109,14 @@ public class InGameActivity extends AppCompatActivity {
                     if (pieceImageMap.containsKey(key)) {
                         square.setImageResource((Integer) pieceImageMap.get(key));
                     }
+                    if (gameSquare.getOccupiedBy() instanceof King) {
+                        if (gameSquare.getOccupiedBy().getColor().equals("BLACK")) {
+                            gameBoard.setKingSquare("BLACK", new Square(row, col));
+                        } else if (gameSquare.getOccupiedBy().getColor().equals("WHITE")) {
+                            gameBoard.setKingSquare("WHITE", new Square(row, col)); // Replace x and y with the appropriate coordinates
+                        }
+                    }
+
                 }
 
                 // Handle when the square is clicked
@@ -148,20 +156,22 @@ public class InGameActivity extends AppCompatActivity {
 
                         }
                     } else {
-                        if (selectedSquareWrapper.square.getOccupiedBy().getColor().equals(gameBoard.getCurrentPlayer())){
-                            // Second click - Attempting to move the piece
-                            // Reset if invalid
-                            if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare,gameBoard)) {
-                                assert clickedSquare != null; // Just to make sure if somehow the clicked square is NULL
-                                movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v,pieceImageMap,gameBoard,this); //At
-                                gameBoard.switchTurn();
+                        Piece selectedPiece = selectedSquareWrapper.square.getOccupiedBy();
+                        String currentPlayer = gameBoard.getCurrentPlayer();
 
+                        if (selectedPiece.getColor().equals(currentPlayer)) {
+                            // Second click - Attempting to move the piece
+                            Piece clickedPiece = clickedSquare.getOccupiedBy();
+                            String clickedPieceColor = (clickedPiece != null) ? clickedPiece.getColor() : null;
+
+                            if (isValidMove(selectedPiece, selectedSquareWrapper.square, clickedSquare, gameBoard, clickedPieceColor)) {
+                                movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v, pieceImageMap, gameBoard, this);
+                                gameBoard.switchTurn();
                             } else {
-                                // Move is invalid
-                                Toast.makeText(getApplicationContext(), "Invalid move", Toast.LENGTH_SHORT).show();
+                                showToast("Invalid move");
                             }
-                        }else{
-                            Toast.makeText(getApplicationContext(),"Not Your Turn Currently " + gameBoard.getCurrentPlayer()+ " Turn",Toast.LENGTH_SHORT).show();
+                        } else {
+                            showToast("Not Your Turn Currently. It's " + currentPlayer + "'s Turn");
                         }
                         resetHighlighting(selectedSquareWrapper.view,selectedSquareWrapper.square);
                         selectedSquareWrapper.square = null; // Reset
@@ -202,10 +212,10 @@ public class InGameActivity extends AppCompatActivity {
         }
 
         //When it kill something
-
         if (toSquare.isOccupied() && !toSquare.getOccupiedBy().getColor().equals(fromSquare.getOccupiedBy().getColor())) {
             Toast.makeText(inGameActivity, fromSquare.getOccupiedBy().getPiece_tag() + " captured " +toSquare.getOccupiedBy().getPiece_tag(), Toast.LENGTH_SHORT).show();
         }
+
         toSquare.setOccupiedBy(fromSquare.getOccupiedBy()); //Change the next square pieces content from null to the previously clicked square
         toSquare.setOccupied(true);
         fromSquare.setOccupiedBy(null); //Reset the previous clicked square to default
@@ -215,7 +225,6 @@ public class InGameActivity extends AppCompatActivity {
 
         checkForCheckAndCheckmate(gameBoard);
     }
-
     private void checkForCheckAndCheckmate(GameBoard gameBoard) {
         String opponentColor = gameBoard.getCurrentPlayer().equals("WHITE") ? "BLACK" : "WHITE";
         if (isKingInCheck(gameBoard, opponentColor)) {
@@ -226,6 +235,14 @@ public class InGameActivity extends AppCompatActivity {
                 // Handle check scenario (e.g., notify players, highlight king)
             }
         }
+    }
+
+    private boolean isValidMove(Piece piece, Square fromSquare, Square toSquare, GameBoard gameBoard, String targetColor) {
+        return piece.validMove(fromSquare, toSquare, gameBoard) && (piece.getColor() != null && !piece.getColor().equals(targetColor));
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     public void applyHighlighting(ImageView pieceView) {

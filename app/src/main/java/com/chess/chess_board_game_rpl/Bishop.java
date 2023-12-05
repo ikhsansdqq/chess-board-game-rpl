@@ -31,11 +31,6 @@ public class Bishop extends Piece{
             }
         }
 
-        // Check if the target square is occupied by a piece of the same color
-        if (targetSquare.isOccupied() && targetSquare.getOccupiedBy().getColor().equals(currentSquare.getOccupiedBy().getColor())) {
-            return false; // Cannot capture your own piece
-        }
-
         return true; // The move is valid
     }
 
