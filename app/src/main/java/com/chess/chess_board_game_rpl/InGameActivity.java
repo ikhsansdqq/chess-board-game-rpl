@@ -7,31 +7,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-/* public class InGameActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_in_game);
-
-        Toolbar toolbar = findViewById(R.id.my_toolbar);
-        toolbar.setTitle("Game Activity");
-        toolbar.setSubtitle("In game for: 12 minutes");
-        setSupportActionBar(toolbar);
-
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-}
-
- */
-
 public class InGameActivity extends AppCompatActivity {
+
+    private SquareWrapper selectedSquareWrapper = new SquareWrapper(null, null);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +29,14 @@ public class InGameActivity extends AppCompatActivity {
         // Now you can initialize your game board and adjust settings based on the difficulty level
         setupGameBoard();
         //setGameDifficulty(difficultyLevel);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        toolbar.setTitle("In Game Activity");
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
     }
 
-    public static class SquareWrapper { //This is the wrapper for clicked square
-        public Square square;
-        public ImageView view;
-        public SquareWrapper(Square square, ImageView view) {
-            this.square = square;
-            this.view = view;
-        }
-    }
-
-    private SquareWrapper selectedSquareWrapper = new SquareWrapper(null, null);
     private void setupGameBoard() {
 
         // Making a HashMap to make everything more efficient
@@ -85,34 +64,34 @@ public class InGameActivity extends AppCompatActivity {
 
                 // Set the background color or image depending on the square's color
                 if ((row + col) % 2 == 0) {
-                    square.setBackgroundColor(getResources().getColor(R.color.light_square_color)); // Light color
+                    square.setBackgroundColor(getResources().getColor(R.color.white_board)); // Light color
                 } else {
-                    square.setBackgroundColor(getResources().getColor(R.color.dark_square_color)); // Dark color
+                    square.setBackgroundColor(getResources().getColor(R.color.gray_board)); // Dark color
                 }
 
                 // Set the image based on the state of the square in the GameBoard
                 assert gameSquare != null;
                 if (gameSquare.isOccupied()) { //Check if the square is occupied
                     Piece piece = gameSquare.getOccupiedBy(); //Get the pieces data if occupied
-                        if (piece instanceof Pawn){
-                            if (Objects.equals(piece.getColor(), "BLACK")){
-                                square.setImageResource(R.drawable.pawn_black);
-                            }else if (Objects.equals(piece.getColor(),"WHITE")){
-                                square.setImageResource(R.drawable.pawn_white);
-                            }
-                        }else if (piece instanceof Rook){
-                            if (Objects.equals(piece.getColor(), "BLACK")){
-                                square.setImageResource(R.drawable.rook_black);
-                            }else if (Objects.equals(piece.getColor(),"WHITE")){
-                                square.setImageResource(R.drawable.rook_white);
-                            }
-                        }else if (piece instanceof Knight){
-                            if (Objects.equals(piece.getColor(), "BLACK")){
-                                square.setImageResource(R.drawable.knight_black);
-                            }else if (Objects.equals(piece.getColor(),"WHITE")){
-                                square.setImageResource(R.drawable.knight_white);
-                            }
+                    if (piece instanceof Pawn) {
+                        if (Objects.equals(piece.getColor(), "BLACK")) {
+                            square.setImageResource(R.drawable.pawn_black);
+                        } else if (Objects.equals(piece.getColor(), "WHITE")) {
+                            square.setImageResource(R.drawable.pawn_white);
                         }
+                    } else if (piece instanceof Rook) {
+                        if (Objects.equals(piece.getColor(), "BLACK")) {
+                            square.setImageResource(R.drawable.rook_black);
+                        } else if (Objects.equals(piece.getColor(), "WHITE")) {
+                            square.setImageResource(R.drawable.rook_white);
+                        }
+                    } else if (piece instanceof Knight) {
+                        if (Objects.equals(piece.getColor(), "BLACK")) {
+                            square.setImageResource(R.drawable.knight_black);
+                        } else if (Objects.equals(piece.getColor(), "WHITE")) {
+                            square.setImageResource(R.drawable.knight_white);
+                        }
+                    }
                 }
 
                 // Handle when the square is clicked
@@ -150,10 +129,10 @@ public class InGameActivity extends AppCompatActivity {
                     } else {
                         // Second click - Attempting to move the piece
                         // Reset if invalid
-                        if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare,gameBoard,this)) {
+                        if (selectedSquareWrapper.square.getOccupiedBy().validMove(selectedSquareWrapper.square, clickedSquare, gameBoard, this)) {
 
                             assert clickedSquare != null; // Just to make sure if somehow the clicked square is NULL
-                            movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v,pieceImageMap); //At
+                            movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v, pieceImageMap); //At
                             selectedSquareWrapper.square = null; // Reset after moving
                             selectedSquareWrapper.view = null;
 
@@ -175,7 +154,8 @@ public class InGameActivity extends AppCompatActivity {
             }
         }
     }
-    private void movePiece(Square fromSquare, Square toSquare, ImageView fromView, ImageView toView,Map pieceImageMap) {
+
+    private void movePiece(Square fromSquare, Square toSquare, ImageView fromView, ImageView toView, Map pieceImageMap) {
 
         Piece piece = fromSquare.getOccupiedBy(); //The square need to be checked about its content
         String pieceType = piece.getClass().getSimpleName().toUpperCase(); // e.g., "PAWN", "ROOK", "KNIGHT"
@@ -198,5 +178,15 @@ public class InGameActivity extends AppCompatActivity {
         fromSquare.setOccupied(false);
         fromView.setImageDrawable(null); // Clear the image from the original square
 
+    }
+
+    public static class SquareWrapper { //This is the wrapper for clicked square
+        public Square square;
+        public ImageView view;
+
+        public SquareWrapper(Square square, ImageView view) {
+            this.square = square;
+            this.view = view;
+        }
     }
 }

@@ -2,8 +2,7 @@ package com.chess.chess_board_game_rpl;
 
 public class GameBoard {
 
-    private static Square[][] squares = new Square[8][8];
-    private String piece_tag;
+    private static final Square[][] squares = new Square[8][8];
 
     public GameBoard() {
         initializeBoard();

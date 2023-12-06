@@ -6,4 +6,6 @@
     <color name="dark_square_color">#006600</color>
     <color name="brand_primary">#2B3C94</color>
     <color name="brand_white">#FFFFFF</color>
+    <color name="white_board">#FFFFFF</color>
+    <color name="gray_board">#696969</color>
 </resources>
