@@ -16,10 +16,11 @@
             android:name=".ApiTestScreen"
             android:exported="false" />
         <activity
+
             android:name=".InGameActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.Material3.DayNight.NoActionBar" />
+            />
         <activity
             android:name=".Contributor"
             android:exported="false"

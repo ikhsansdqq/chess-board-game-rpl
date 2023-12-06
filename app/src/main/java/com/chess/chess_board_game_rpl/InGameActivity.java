@@ -11,11 +11,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class InGameActivity extends AppCompatActivity {
+
+    private final SquareWrapper selectedSquareWrapper = new SquareWrapper(null, null);
+
+    private void updateTurnIndicator(String currentPlayer) {
+        TextView turnIndicator = findViewById(R.id.turnIndicator);
+        turnIndicator.setText(currentPlayer + "'s Turn");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,22 +39,14 @@ public class InGameActivity extends AppCompatActivity {
         setupGameBoard();
         //setGameDifficulty(difficultyLevel);
 
-    }
-    private void updateTurnIndicator(String currentPlayer) {
-        TextView turnIndicator = findViewById(R.id.turnIndicator);
-        turnIndicator.setText(currentPlayer + "'s Turn");
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        toolbar.setTitle(difficultyLevel);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
-    public static class SquareWrapper { //This is the wrapper for clicked square
-        public Square square;
-        public ImageView view;
-        public SquareWrapper(Square square, ImageView view) {
-            this.square = square;
-            this.view = view;
-        }
-    }
-
-    private SquareWrapper selectedSquareWrapper = new SquareWrapper(null, null);
     private void setupGameBoard() {
 
         // Making a HashMap to make everything more efficient
@@ -113,33 +114,17 @@ public class InGameActivity extends AppCompatActivity {
                     int clickedCol = Integer.parseInt(parts[1]);
 
                     Square clickedSquare = gameBoard.getSquare(clickedRow, clickedCol); //Get the square data from clicked square
-                    // Square changeSquare;
-
-                    // Check if no piece is currently selected
-                    // This condition is true when the player has not yet clicked on a piece, indicating the beginning of the action to select a piece on the board.
                     if (selectedSquareWrapper.square == null) {
 
                         // First click - Selecting the pieces
                         assert clickedSquare != null;
                         if (clickedSquare.isOccupied() & clickedSquare.getOccupiedBy() != null) {
                             if (selectedSquareWrapper.view != null) {
-                                resetHighlighting(selectedSquareWrapper.view,selectedSquareWrapper.square);
+                                resetHighlighting(selectedSquareWrapper.view, selectedSquareWrapper.square);
                             }
                             selectedSquareWrapper.square = clickedSquare; //The wrapper
                             selectedSquareWrapper.view = (ImageView) v;
                             applyHighlighting(selectedSquareWrapper.view);
-
-                            // TODO make a view limit
-                            /*
-                            if (Objects.equals(clickedSquare.getOccupiedBy().getColor(), "BLACK")){
-                                for(int count = selectedSquareWrapper.square.getYPosition() + 1 ; count <= selectedSquareWrapper.square.getYPosition() + 2 ; count++) {
-                                    changeSquare = gameBoard.getSquare(clickedRow,count);
-                                    selectedSquareWrapper.view.setBackgroundColor(getResources().getColor(R.color.black));
-                                }
-                            }
-                            */
-                            //Log.d("ChessDebug", "Clicked Square: Row = " + clickedRow + ", Col = " + clickedCol);
-
                         }
                     } else {
                         Piece selectedPiece = selectedSquareWrapper.square.getOccupiedBy();
@@ -160,7 +145,7 @@ public class InGameActivity extends AppCompatActivity {
                         } else {
                             showToast("Not Your Turn Currently. It's " + currentPlayer + "'s Turn");
                         }
-                        resetHighlighting(selectedSquareWrapper.view,selectedSquareWrapper.square);
+                        resetHighlighting(selectedSquareWrapper.view, selectedSquareWrapper.square);
                         selectedSquareWrapper.square = null; // Reset
                         selectedSquareWrapper.view = null;
 
@@ -178,6 +163,7 @@ public class InGameActivity extends AppCompatActivity {
             }
         }
     }
+
     private void movePiece(Square fromSquare, Square toSquare, ImageView fromView, ImageView toView, Map pieceImageMap, GameBoard gameBoard, InGameActivity inGameActivity) {
 
         Piece piece = fromSquare.getOccupiedBy(); //The square need to be checked about its content
@@ -200,7 +186,7 @@ public class InGameActivity extends AppCompatActivity {
 
         //When it kill something
         if (toSquare.isOccupied() && !toSquare.getOccupiedBy().getColor().equals(fromSquare.getOccupiedBy().getColor())) {
-            Toast.makeText(inGameActivity, fromSquare.getOccupiedBy().getPiece_tag() + " captured " +toSquare.getOccupiedBy().getPiece_tag(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(inGameActivity, fromSquare.getOccupiedBy().getPiece_tag() + " captured " + toSquare.getOccupiedBy().getPiece_tag(), Toast.LENGTH_SHORT).show();
         }
 
         toSquare.setOccupiedBy(fromSquare.getOccupiedBy()); //Change the next square pieces content from null to the previously clicked square
@@ -211,15 +197,27 @@ public class InGameActivity extends AppCompatActivity {
 
         checkForCheckAndCheckmate(gameBoard);
     }
+
     private void checkForCheckAndCheckmate(GameBoard gameBoard) {
         String opponentColor = gameBoard.getCurrentPlayer().equals("WHITE") ? "BLACK" : "WHITE";
         if (isKingInCheck(gameBoard, opponentColor)) {
-            Log.d("ChessDebug","KING IN CHECK");
+            Log.d("ChessDebug", "KING IN CHECK");
             if (King.isCheckmate(gameBoard, opponentColor)) {
                 showToast("KING CHECK MATED");
             } else {
                 // Handle check scenario (e.g., notify players, highlight king)
+                Toast.makeText(this, "Your king almost die! get out!", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    public void resetHighlighting(ImageView pieceView, Square square) {
+        int row = square.getXPosition();
+        int col = square.getYPosition();
+        if ((row + col) % 2 == 0) {
+            pieceView.setBackgroundColor(ContextCompat.getColor(this, R.color.light_square_color)); // Reset to light square color
+        } else {
+            pieceView.setBackgroundColor(ContextCompat.getColor(this, R.color.dark_square_color)); // Reset to dark square color
         }
     }
 
@@ -235,13 +233,13 @@ public class InGameActivity extends AppCompatActivity {
         pieceView.setBackgroundResource(R.drawable.selected_piece_border);
     }
 
-    public void resetHighlighting(ImageView pieceView,Square square) {
-        int row = square.getXPosition();
-        int col = square.getYPosition();
-        if ((row + col) % 2 == 0) {
-            pieceView.setBackgroundColor(getResources().getColor(R.color.light_square_color)); // Reset to light square color
-        } else {
-            pieceView.setBackgroundColor(getResources().getColor(R.color.dark_square_color)); // Reset to dark square color
+    public static class SquareWrapper { //This is the wrapper for clicked square
+        public Square square;
+        public ImageView view;
+
+        public SquareWrapper(Square square, ImageView view) {
+            this.square = square;
+            this.view = view;
         }
     }
 }

@@ -4,7 +4,7 @@ public class GameBoard {
 
     private Square whiteKingSquare;
     private Square blackKingSquare;
-    private static Square[][] squares = new Square[8][8];
+    private static final Square[][] squares = new Square[8][8];
 
     private String currentPlayer;
 
@@ -29,35 +29,35 @@ public class GameBoard {
                 squares[row][col] = new Square(row, col);
 
                 if (row == 1) {
-                    addPieceToSquare(row, col, "P", "BLACK", squares);
+                    addPieceToSquare(row, col, "P", "BLACK");
                 } else if (row == 6) {
-                    addPieceToSquare(row, col, "P", "WHITE", squares);
+                    addPieceToSquare(row, col, "P", "WHITE");
                 } else if (row == 0 && (col == 0 || col == 7)) {
-                    addPieceToSquare(row, col, "R", "BLACK", squares);
+                    addPieceToSquare(row, col, "R", "BLACK");
                 } else if (row == 7 && (col == 0 || col == 7)) {
-                    addPieceToSquare(row, col, "R", "WHITE", squares);
+                    addPieceToSquare(row, col, "R", "WHITE");
                 } else if (row == 0 && (col == 1 || col == 6)) {
-                    addPieceToSquare(row, col, "K", "BLACK", squares);
+                    addPieceToSquare(row, col, "K", "BLACK");
                 } else if (row == 7 && (col == 1 || col == 6)) {
-                    addPieceToSquare(row, col, "K", "WHITE", squares);
+                    addPieceToSquare(row, col, "K", "WHITE");
                 } else if (row == 0 && (col == 2 || col == 5)) {
-                    addPieceToSquare(row, col, "B", "BLACK", squares);
+                    addPieceToSquare(row, col, "B", "BLACK");
                 } else if (row == 7 && (col == 2 || col == 5)) {
-                    addPieceToSquare(row, col, "B", "WHITE", squares);
+                    addPieceToSquare(row, col, "B", "WHITE");
                 } else if (row == 0 && (col == 3)) {
-                    addPieceToSquare(row, col, "KG", "BLACK", squares);
+                    addPieceToSquare(row, col, "KG", "BLACK");
                 } else if (row == 7 && (col == 3)) {
-                    addPieceToSquare(row, col, "KG", "WHITE", squares);
+                    addPieceToSquare(row, col, "KG", "WHITE");
                 } else if (row == 0 && (col == 4)) {
-                    addPieceToSquare(row, col, "QN", "BLACK", squares);
+                    addPieceToSquare(row, col, "QN", "BLACK");
                 } else if (row == 7 && (col == 4)) {
-                    addPieceToSquare(row, col, "QN", "WHITE", squares);
+                    addPieceToSquare(row, col, "QN", "WHITE");
                 }
             }
         }
     }
 
-    private void addPieceToSquare(int row, int col, String type, String color, Square[][] squares) {
+    private void addPieceToSquare(int row, int col, String type, String color) {
         String pieceTag = type + (col + 1) + (color.equals("BLACK") ? "B" : "W");
         Piece piece;
 
@@ -84,8 +84,8 @@ public class GameBoard {
                 return; // or throw an exception
         }
 
-        squares[row][col].setOccupiedBy(piece);
-        squares[row][col].setOccupied(true);
+        GameBoard.squares[row][col].setOccupiedBy(piece);
+        GameBoard.squares[row][col].setOccupied(true);
     }
 
     public Square getSquare(int x, int y) {
