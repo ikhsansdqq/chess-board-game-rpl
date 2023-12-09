@@ -1,6 +1,9 @@
-package com.chess.chess_board_game_rpl;
+package com.chess.chess_board_game_rpl.Pieces;
 
 import android.util.Log;
+
+import com.chess.chess_board_game_rpl.Initializer.GameBoard;
+import com.chess.chess_board_game_rpl.Initializer.Square;
 
 public class King extends Piece{
     public King(String color, String piece_tag) {

@@ -1,11 +1,14 @@
-package com.chess.chess_board_game_rpl;
+package com.chess.chess_board_game_rpl.Pieces;
+
+import com.chess.chess_board_game_rpl.Initializer.GameBoard;
+import com.chess.chess_board_game_rpl.Initializer.Square;
 
 public class Rook extends Piece{
     public Rook(String color, String piece_tag) {
         super(color, piece_tag);
     }
     @Override
-    public boolean validMove(Square currentSquare, Square targetSquare,GameBoard gameBoard) {
+    public boolean validMove(Square currentSquare, Square targetSquare, GameBoard gameBoard) {
         // Check for horizontal or vertical move
         boolean isHorizontalMove = currentSquare.getYPosition() == targetSquare.getYPosition();
         boolean isVerticalMove = currentSquare.getXPosition() == targetSquare.getXPosition();

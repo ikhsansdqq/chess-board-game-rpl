@@ -1,4 +1,7 @@
-package com.chess.chess_board_game_rpl;
+package com.chess.chess_board_game_rpl.Pieces;
+
+import com.chess.chess_board_game_rpl.Initializer.GameBoard;
+import com.chess.chess_board_game_rpl.Initializer.Square;
 
 public class Bishop extends Piece{
 

@@ -1,4 +1,7 @@
-package com.chess.chess_board_game_rpl;
+package com.chess.chess_board_game_rpl.Pieces;
+
+import com.chess.chess_board_game_rpl.Initializer.GameBoard;
+import com.chess.chess_board_game_rpl.Initializer.Square;
 
 public abstract class Piece {
 
@@ -17,5 +20,5 @@ public abstract class Piece {
         return piece_tag;
     }
 
-    public abstract boolean validMove(Square square, Square clickedSquare,GameBoard gameBoard);
+    public abstract boolean validMove(Square square, Square clickedSquare, GameBoard gameBoard);
 }

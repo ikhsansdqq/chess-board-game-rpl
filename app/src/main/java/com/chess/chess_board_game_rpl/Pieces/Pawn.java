@@ -1,4 +1,7 @@
-package com.chess.chess_board_game_rpl;
+package com.chess.chess_board_game_rpl.Pieces;
+
+import com.chess.chess_board_game_rpl.Initializer.GameBoard;
+import com.chess.chess_board_game_rpl.Initializer.Square;
 
 import java.util.Objects;
 
@@ -19,7 +22,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean validMove(Square currentSquare, Square targetSquare,GameBoard gameBoard) {
+    public boolean validMove(Square currentSquare, Square targetSquare, GameBoard gameBoard) {
 
         boolean valid = false;
         int deltaX = targetSquare.getXPosition() - currentSquare.getXPosition();

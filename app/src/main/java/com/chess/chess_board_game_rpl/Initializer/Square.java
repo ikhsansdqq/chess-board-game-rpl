@@ -1,4 +1,6 @@
-package com.chess.chess_board_game_rpl;
+package com.chess.chess_board_game_rpl.Initializer;
+
+import com.chess.chess_board_game_rpl.Pieces.Piece;
 
 public class Square {
     private int xPosition;

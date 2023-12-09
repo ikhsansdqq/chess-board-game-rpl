@@ -17,11 +17,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.chess.chess_board_game_rpl.Initializer.GameBoard;
+import com.chess.chess_board_game_rpl.Initializer.Square;
+import com.chess.chess_board_game_rpl.Score.ScoreLayout;
+
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     Button mDialogButton, dismissButton, playWithBot;
     private GridLayout gridLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,13 +100,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         } else if (itemId == R.id.action_item2) {
-            Intent intent = new Intent(this, InGameActivity.class);
+            Intent intent = new Intent(this, ScoreLayout.class);
             startActivity(intent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
     private void initializeUI() {
         // Set up the UI to reflect the initial state of the gameBoard
         GameBoard gameBoard = new GameBoard();
@@ -110,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 View squareView = createSquareView(gameBoard.getSquare(i, j));
-                
+
                 gridLayout.addView(squareView);
 
                 // Set a tag to identify the square later

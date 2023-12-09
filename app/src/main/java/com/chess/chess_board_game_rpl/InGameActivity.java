@@ -1,6 +1,6 @@
 package com.chess.chess_board_game_rpl;
 
-import static com.chess.chess_board_game_rpl.King.isKingInCheck;
+import static com.chess.chess_board_game_rpl.Pieces.King.isKingInCheck;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+
+import com.chess.chess_board_game_rpl.Initializer.GameBoard;
+import com.chess.chess_board_game_rpl.Initializer.Square;
+import com.chess.chess_board_game_rpl.Pieces.King;
+import com.chess.chess_board_game_rpl.Pieces.Pawn;
+import com.chess.chess_board_game_rpl.Pieces.Piece;
 
 import java.util.HashMap;
 import java.util.Map;

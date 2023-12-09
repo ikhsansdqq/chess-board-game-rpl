@@ -13,14 +13,17 @@
         android:theme="@style/Base.Theme.Chessboardgamerpl"
         tools:targetApi="31">
         <activity
+            android:name=".Score.ScoreLayout"
+            android:exported="false"
+            android:label="@string/title_activity_score_layout"
+            android:theme="@style/Base.Theme.Chessboardgamerpl" />
+        <activity
             android:name=".ApiTestScreen"
             android:exported="false" />
         <activity
-
             android:name=".InGameActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity"
-            />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Contributor"
             android:exported="false"
