@@ -15,7 +15,7 @@
 
     <style name="Theme.Chessboardgamerpl" parent="Base.Theme.Chessboardgamerpl" />
     <!-- Base application theme. -->
-    <style name="Base.Base.Theme.Chessboardgamerpl" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Base.Theme.Chessboardgamerpl" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>

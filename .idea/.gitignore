@@ -3,3 +3,5 @@
 /workspace.xml
 /vcs.xml
 /render.experimental.xml
+/kotlinc.xml
+/migrations.xml
