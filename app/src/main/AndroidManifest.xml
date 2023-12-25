@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <!-- yang Dawwi ubah -->
+        <!-- add xml -->
         <activity
             android:name=".MainActivity"
             android:exported="true" />
@@ -36,7 +36,7 @@
             android:parentActivityName=".MainActivity" />
 
 
-        <!-- file lama -->
+        <!-- old xml -->
         <activity
             android:name=".Score.ScoreLayout"
             android:exported="false"
