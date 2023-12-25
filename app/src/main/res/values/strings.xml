@@ -12,6 +12,9 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="logo_description">Logo perusahaan X, menampilkan simbol khas dalam warna biru dan putih.</string>
+    <string name="description_for_the_image">Deskripsi gambar yang membantu pengguna pembaca layar memahami isi gambar.</string>
+
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

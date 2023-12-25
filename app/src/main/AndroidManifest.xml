@@ -12,6 +12,31 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.Chessboardgamerpl"
         tools:targetApi="31">
+
+        <!-- Tambahkan SplashScreenActivity dengan intent-filter -->
+        <activity
+            android:name=".SplashScreen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- yang Dawwi ubah -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".HomeScreen"
+            android:exported="true" />
+        <activity
+            android:name=".InGameActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
+
+
+        <!-- file lama -->
         <activity
             android:name=".Score.ScoreLayout"
             android:exported="false"
@@ -21,22 +46,10 @@
             android:name=".ApiTestScreen"
             android:exported="false" />
         <activity
-            android:name=".InGameActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
-        <activity
             android:name=".Contributor"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
