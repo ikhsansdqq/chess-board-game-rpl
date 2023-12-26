@@ -12,8 +12,8 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
         android:elevation="4dp"
-        android:theme="@style/Theme.Material3.Light.NoActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
         app:title="@string/app_name" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/my_toolbar"
         android:layout_marginTop="36dp"
-        android:fontFamily="@font/general_sans_semi_bold"
+        android:fontFamily="@font/font"
         android:text="Competitive Mode"
         android:textAlignment="center"
         android:textColor="#212121"
@@ -36,6 +36,7 @@
         android:layout_below="@id/textTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/chess_board_asset" />
 
     <LinearLayout
@@ -52,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24sp"
             android:layout_marginTop="4sp"
-            android:fontFamily="@font/general_sans_semi_bold"
+            android:fontFamily="@font/font"
             android:paddingVertical="16sp"
             android:text="Search opponent" />
 
@@ -63,7 +64,7 @@
             android:layout_marginHorizontal="24sp"
             android:layout_marginTop="8dp"
             android:backgroundTint="#E9EBF8"
-            android:fontFamily="@font/general_sans_semi_bold"
+            android:fontFamily="@font/font"
             android:paddingVertical="16sp"
             android:text="Play with bot"
             android:textColor="@color/brand_primary" />

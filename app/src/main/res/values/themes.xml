@@ -1,11 +1,12 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Chessboardgamerpl" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Base.Theme.Chessboardgamerpl" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/brand_primary</item>
         <item name="colorPrimaryDark">@color/brand_primary</item>
         <item name="colorAccent">@color/brand_white</item>
-        <item name="android:textViewStyle">@font/general_sans_regular</item>
-        <item name="buttonStyle">@font/general_sans_semi_bold</item>
+        <item name="android:textViewStyle">@font/font</item>
+        <item name="android:fontFamily">@font/font</item>
+        <item name="buttonStyle">@font/font</item>
     </style>
 
     <style name="animation">

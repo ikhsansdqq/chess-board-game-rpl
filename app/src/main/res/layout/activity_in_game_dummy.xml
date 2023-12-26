@@ -25,8 +25,6 @@
         android:id="@+id/chessBoard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textTitle"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:rowCount="8"
         android:columnCount="8"
@@ -57,7 +55,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/general_sans_semi_bold"
+                    android:fontFamily="@font/font"
                     android:text="Zauzan"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -66,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:fontFamily="@font/general_sans_regular"
+                    android:fontFamily="@font/font"
                     android:text="2200 MMR"
                     android:textColor="@color/white" />
 
@@ -85,7 +83,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/general_sans_semi_bold"
+                android:fontFamily="@font/font"
                 android:text="Time remaining:"
                 android:textColor="@color/white" />
 
@@ -101,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="4dp"
-                    android:fontFamily="@font/general_sans_regular"
+                    android:fontFamily="@font/font"
                     android:text="12s"
                     android:textColor="@color/white" />
 
@@ -147,7 +145,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/general_sans_semi_bold"
+                    android:fontFamily="@font/font"
                     android:text="Bot Ajojing"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -156,7 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:fontFamily="@font/general_sans_regular"
+                    android:fontFamily="@font/font"
                     android:text="2179 MMR"
                     android:textColor="@color/white" />
 
@@ -175,7 +173,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/general_sans_semi_bold"
+                android:fontFamily="@font/font"
                 android:text="Time remaining:"
                 android:textColor="@color/white" />
 
@@ -191,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="4dp"
-                    android:fontFamily="@font/general_sans_regular"
+                    android:fontFamily="@font/font"
                     android:text="6.4s"
                     android:textColor="@color/white" />
 

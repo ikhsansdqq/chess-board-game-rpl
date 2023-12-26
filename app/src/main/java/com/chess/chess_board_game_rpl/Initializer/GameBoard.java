@@ -1,12 +1,12 @@
 package com.chess.chess_board_game_rpl.Initializer;
 
-import com.chess.chess_board_game_rpl.Pieces.Bishop;
-import com.chess.chess_board_game_rpl.Pieces.King;
-import com.chess.chess_board_game_rpl.Pieces.Knight;
-import com.chess.chess_board_game_rpl.Pieces.Pawn;
-import com.chess.chess_board_game_rpl.Pieces.Piece;
-import com.chess.chess_board_game_rpl.Pieces.Queen;
-import com.chess.chess_board_game_rpl.Pieces.Rook;
+import com.chess.chess_board_game_rpl.pieces.Bishop;
+import com.chess.chess_board_game_rpl.pieces.King;
+import com.chess.chess_board_game_rpl.pieces.Knight;
+import com.chess.chess_board_game_rpl.pieces.Pawn;
+import com.chess.chess_board_game_rpl.pieces.Piece;
+import com.chess.chess_board_game_rpl.pieces.Queen;
+import com.chess.chess_board_game_rpl.pieces.Rook;
 
 public class GameBoard {
 

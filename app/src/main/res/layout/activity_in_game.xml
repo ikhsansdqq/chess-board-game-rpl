@@ -32,6 +32,7 @@
                 android:id="@+id/secondPlayerNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
                 android:text="PlayerName"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -40,6 +41,7 @@
                 android:id="@+id/secondPlayerScoreText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
                 android:text="Score: 0"
                 android:textSize="16sp" />
 
@@ -77,6 +79,7 @@
                 android:id="@+id/turnIndicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
                 android:text="White Turn"
                 android:textAlignment="center"
                 android:textColor="@color/black"
@@ -100,6 +103,7 @@
                     android:id="@+id/timerTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/font"
                     android:text="00:00"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -126,6 +130,7 @@
                 android:id="@+id/firstPlayerNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
                 android:text="FirstPlayerName"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -134,6 +139,7 @@
                 android:id="@+id/firstPlayerScoreText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/font"
                 android:text="Score: 0"
                 android:textSize="16sp" />
 

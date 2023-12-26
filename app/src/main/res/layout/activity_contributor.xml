@@ -27,9 +27,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="12dp"
-            android:fontFamily="@font/general_sans_semi_bold"
+            android:fontFamily="@font/font"
             android:text="Proudle presented by:"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <ListView
             android:id="@+id/contributor_listview"

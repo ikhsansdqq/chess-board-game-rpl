@@ -13,9 +13,9 @@
         android:theme="@style/Base.Theme.Chessboardgamerpl"
         tools:targetApi="31">
 
-        <!-- Tambahkan SplashScreenActivity dengan intent-filter -->
         <activity
             android:name=".SplashScreen"
+            android:configChanges="orientation|screenSize|screenLayout"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,10 +38,8 @@
 
         <!-- old xml -->
         <activity
-            android:name=".Score.ScoreLayout"
-            android:exported="false"
-            android:label="@string/title_activity_score_layout"
-            android:theme="@style/Base.Theme.Chessboardgamerpl" />
+            android:name=".settings.Setting"
+            android:exported="false" />
         <activity
             android:name=".ApiTestScreen"
             android:exported="false" />

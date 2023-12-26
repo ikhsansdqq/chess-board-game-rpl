@@ -1,4 +1,4 @@
-package com.chess.chess_board_game_rpl.Pieces;
+package com.chess.chess_board_game_rpl.pieces;
 
 import android.util.Log;
 

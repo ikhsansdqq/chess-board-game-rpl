@@ -1,6 +1,6 @@
 package com.chess.chess_board_game_rpl;
 
-import static com.chess.chess_board_game_rpl.Pieces.King.isKingInCheck;
+import static com.chess.chess_board_game_rpl.pieces.King.isKingInCheck;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,12 +16,13 @@ import androidx.core.content.ContextCompat;
 
 import com.chess.chess_board_game_rpl.Initializer.GameBoard;
 import com.chess.chess_board_game_rpl.Initializer.Square;
-import com.chess.chess_board_game_rpl.Pieces.King;
-import com.chess.chess_board_game_rpl.Pieces.Pawn;
-import com.chess.chess_board_game_rpl.Pieces.Piece;
+import com.chess.chess_board_game_rpl.pieces.King;
+import com.chess.chess_board_game_rpl.pieces.Pawn;
+import com.chess.chess_board_game_rpl.pieces.Piece;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class InGameActivity extends AppCompatActivity {
 
@@ -43,12 +44,11 @@ public class InGameActivity extends AppCompatActivity {
 
         // Now you can initialize your game board and adjust settings based on the difficulty level
         setupGameBoard();
-        //setGameDifficulty(difficultyLevel);
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setTitle(difficultyLevel);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
@@ -69,7 +69,6 @@ public class InGameActivity extends AppCompatActivity {
         pieceImageMap.put("KING_BLACK", R.drawable.king_black);
         pieceImageMap.put("QUEEN_WHITE", R.drawable.queen_white);
         pieceImageMap.put("QUEEN_BLACK", R.drawable.queen_black);
-        // Add other pieces here
 
         GameBoard gameBoard = new GameBoard(); //Initialize the board
         GridLayout chessBoard = findViewById(R.id.chessBoard);
@@ -158,7 +157,6 @@ public class InGameActivity extends AppCompatActivity {
                     }
                 });
 
-                // Add LayoutParams to control the size of the squares
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();
                 params.width = getResources().getDimensionPixelSize(R.dimen.chess_square_size); // Define this dimension in dimens.xml
                 params.height = getResources().getDimensionPixelSize(R.dimen.chess_square_size); // Define this dimension in dimens.xml

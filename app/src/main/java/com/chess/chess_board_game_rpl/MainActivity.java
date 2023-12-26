@@ -19,13 +19,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.chess.chess_board_game_rpl.Initializer.GameBoard;
 import com.chess.chess_board_game_rpl.Initializer.Square;
-import com.chess.chess_board_game_rpl.Score.ScoreLayout;
+import com.chess.chess_board_game_rpl.settings.Setting;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     Button mDialogButton, dismissButton, playWithBot;
-    private GridLayout gridLayout;
+    public GridLayout gridLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +41,16 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("Choose Difficulty");
             final String[] levels = {"EZ Mode", "Normal Mode", "Nightmare Mode"};
-            // Use an array to hold the selected difficulty because it's effectively final
-            final String[] selectedDifficulty = {levels[0]}; // default to the first option
+            final String[] selectedDifficulty = {levels[0]};
 
             builder.setSingleChoiceItems(levels, 0, (dialog12, which) -> {
                 selectedDifficulty[0] = levels[which];
-                Toast.makeText(MainActivity.this, "Clicked on: " + levels[which], Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Clicked on: " + levels[which], Toast.LENGTH_SHORT).show();
             });
+
             builder.setNegativeButton("Cancel", (dialog1, which) -> dialog1.dismiss());
             builder.setPositiveButton("Confirm", (dialog1, which) -> {
-                // User clicked confirm, so check if the "Normal Mode" was selected
                 if ("Normal Mode".equals(selectedDifficulty[0])) {
-                    // Start the game activity
                     Intent intent = new Intent(MainActivity.this, InGameActivity.class);
                     intent.putExtra("difficulty", "Normal");
                     startActivity(intent);
@@ -100,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         } else if (itemId == R.id.action_item2) {
-            Intent intent = new Intent(this, ScoreLayout.class);
+            Intent intent = new Intent(this, Setting.class);
             startActivity(intent);
             return true;
         }
@@ -109,27 +107,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeUI() {
-        // Set up the UI to reflect the initial state of the gameBoard
         GameBoard gameBoard = new GameBoard();
 
-        // Assuming you have a method to create a view for each square
+//        Board Box Generate
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 View squareView = createSquareView(gameBoard.getSquare(i, j));
 
                 gridLayout.addView(squareView);
-
-                // Set a tag to identify the square later
                 squareView.setTag(new int[]{i, j});
 
                 // Add click listeners to the squares
-                squareView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // When a square is clicked, handle the move
-                        int[] position = (int[]) v.getTag();
-                        onSquareClicked(position[0], position[1]);
-                    }
+                squareView.setOnClickListener(v -> {
+                    // When a square is clicked, handle the move
+                    int[] position = (int[]) v.getTag();
+                    onSquareClicked(position[0], position[1]);
                 });
             }
         }
