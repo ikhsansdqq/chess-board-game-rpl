@@ -6,19 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.chess.chess_board_game_rpl.Initializer.GameBoard;
-import com.chess.chess_board_game_rpl.Initializer.Square;
 import com.chess.chess_board_game_rpl.settings.Setting;
 
 import java.util.Objects;
@@ -106,36 +102,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeUI() {
-        GameBoard gameBoard = new GameBoard();
-
-//        Board Box Generate
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                View squareView = createSquareView(gameBoard.getSquare(i, j));
-
-                gridLayout.addView(squareView);
-                squareView.setTag(new int[]{i, j});
-
-                // Add click listeners to the squares
-                squareView.setOnClickListener(v -> {
-                    // When a square is clicked, handle the move
-                    int[] position = (int[]) v.getTag();
-                    onSquareClicked(position[0], position[1]);
-                });
-            }
-        }
-    }
-
-    private View createSquareView(Square square) {
-        // Create and return a view for the square
-        // You'll set the image or background depending on whether the square is occupied
-        // and what piece is occupying it
-        return new ImageView(this);
-    }
-
-    private void onSquareClicked(int x, int y) {
-        // Handle the logic when a square is clicked
-        // This could involve selecting a piece, moving a piece, etc.
-    }
 }

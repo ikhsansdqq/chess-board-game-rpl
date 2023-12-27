@@ -5,6 +5,7 @@ import static com.chess.chess_board_game_rpl.pieces.King.isKingInCheck;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public class InGameActivity extends AppCompatActivity {
 
     private final SquareWrapper selectedSquareWrapper = new SquareWrapper(null, null);
 
-    private void updateTurnIndicator(String currentPlayer) {
+    protected void updateTurnIndicator(String currentPlayer) {
         TextView turnIndicator = findViewById(R.id.turnIndicator);
         turnIndicator.setText(currentPlayer + "'s Turn");
     }
@@ -53,7 +54,7 @@ public class InGameActivity extends AppCompatActivity {
 
     }
 
-    private void setupGameBoard() {
+    protected void setupGameBoard() {
 
         // Making a HashMap to make everything more efficient
         Map<String, Integer> pieceImageMap = new HashMap<>();
@@ -168,7 +169,7 @@ public class InGameActivity extends AppCompatActivity {
         }
     }
 
-    private void movePiece(Square fromSquare, Square toSquare, ImageView fromView, ImageView toView, Map pieceImageMap, GameBoard gameBoard, InGameActivity inGameActivity) {
+    protected void movePiece(Square fromSquare, Square toSquare, ImageView fromView, ImageView toView, Map pieceImageMap, GameBoard gameBoard, InGameActivity inGameActivity) {
 
         Piece piece = fromSquare.getOccupiedBy(); //The square need to be checked about its content
         String pieceType = piece.getClass().getSimpleName().toUpperCase(); // e.g., "PAWN", "ROOK", "KNIGHT"
@@ -202,7 +203,7 @@ public class InGameActivity extends AppCompatActivity {
         checkForCheckAndCheckmate(gameBoard);
     }
 
-    private void checkForCheckAndCheckmate(GameBoard gameBoard) {
+    protected void checkForCheckAndCheckmate(GameBoard gameBoard) {
         String opponentColor = gameBoard.getCurrentPlayer().equals("WHITE") ? "BLACK" : "WHITE";
         if (isKingInCheck(gameBoard, opponentColor)) {
             Log.d("ChessDebug", "KING IN CHECK");
@@ -215,7 +216,7 @@ public class InGameActivity extends AppCompatActivity {
         }
     }
 
-    public void resetHighlighting(ImageView pieceView, Square square) {
+    protected void resetHighlighting(ImageView pieceView, Square square) {
         int row = square.getXPosition();
         int col = square.getYPosition();
         if ((row + col) % 2 == 0) {
@@ -225,15 +226,15 @@ public class InGameActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isValidMove(Piece piece, Square fromSquare, Square toSquare, GameBoard gameBoard, String targetColor) {
+    protected boolean isValidMove(Piece piece, Square fromSquare, Square toSquare, GameBoard gameBoard, String targetColor) {
         return piece.validMove(fromSquare, toSquare, gameBoard) && (piece.getColor() != null && !piece.getColor().equals(targetColor));
     }
 
-    private void showToast(String message) {
+    protected void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    public void applyHighlighting(ImageView pieceView) {
+    protected void applyHighlighting(ImageView pieceView) {
         pieceView.setBackgroundResource(R.drawable.selected_piece_border);
     }
 
@@ -245,5 +246,17 @@ public class InGameActivity extends AppCompatActivity {
             this.square = square;
             this.view = view;
         }
+    }
+
+    public ImageView getSquareImageView(int row, int col) {
+        GridLayout chessBoard = findViewById(R.id.chessBoard);
+        String tag = row + "," + col;
+        for (int i = 0; i < chessBoard.getChildCount(); i++) {
+            View view = chessBoard.getChildAt(i);
+            if (view instanceof ImageView && tag.equals(view.getTag())) {
+                return (ImageView) view;
+            }
+        }
+        return null; // Return null if no matching square is found
     }
 }
