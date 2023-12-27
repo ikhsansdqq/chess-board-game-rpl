@@ -52,6 +52,6 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("com.google.code.gson:gson:2.8.9")
-    testImplementation ("org.mockito:mockito-core:5.8.0")
-    implementation("org.mockito:mockito-core:5.8.0")
+    testImplementation ("org.mockito:mockito-android:5.8.0")
+    androidTestImplementation("org.mockito:mockito-android:5.8.0")
 }

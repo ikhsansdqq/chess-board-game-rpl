@@ -195,9 +195,7 @@ public class InGameActivity extends AppCompatActivity {
         }
 
         toSquare.setOccupiedBy(fromSquare.getOccupiedBy()); //Change the next square pieces content from null to the previously clicked square
-        toSquare.setOccupied(true);
         fromSquare.setOccupiedBy(null); //Reset the previous clicked square to default
-        fromSquare.setOccupied(false);
         fromView.setImageDrawable(null); // Clear the image from the original square
 
         checkForCheckAndCheckmate(gameBoard);

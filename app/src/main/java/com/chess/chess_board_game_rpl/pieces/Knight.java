@@ -14,10 +14,6 @@ public class Knight extends Piece {
         int deltaY = Math.abs(targetSquare.getYPosition() - currentSquare.getYPosition());
 
         // Check if the move is L-shaped (2 squares in one direction and 1 square in the other)
-        if (!((deltaX == 2 && deltaY == 1) || (deltaX == 1 && deltaY == 2))) {
-            return false;
-        }
-
-        return true; // The move is valid
+        return (deltaX == 2 && deltaY == 1) || (deltaX == 1 && deltaY == 2);// The move is valid
     }
 }

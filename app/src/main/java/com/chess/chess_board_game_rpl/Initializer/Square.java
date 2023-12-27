@@ -3,8 +3,8 @@ package com.chess.chess_board_game_rpl.Initializer;
 import com.chess.chess_board_game_rpl.pieces.Piece;
 
 public class Square {
-    private int xPosition;
-    private int yPosition;
+    private final int xPosition;
+    private final int yPosition;
     private Piece occupiedBy; // This will be a reference to the piece that occupies the square
     private boolean isOccupied;
 
@@ -33,8 +33,8 @@ public class Square {
     public Piece getOccupiedBy(){
         return this.occupiedBy;
     }
-
     public void setOccupiedBy(Piece occupiedBy) {
         this.occupiedBy = occupiedBy;
+        setOccupied(occupiedBy != null); // Directly set isOccupied based on whether occupiedBy is null
     }
 }

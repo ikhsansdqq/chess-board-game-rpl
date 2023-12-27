@@ -80,6 +80,7 @@ public class InGameActivityTest {
     }
 
     private void verifyPiecePlacement(String tag, int drawableId) {
+
         String[] parts = tag.split(",");
         int row = Integer.parseInt(parts[0]);
         int col = Integer.parseInt(parts[1]);

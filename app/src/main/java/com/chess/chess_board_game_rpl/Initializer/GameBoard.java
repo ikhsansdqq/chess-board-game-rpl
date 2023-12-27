@@ -13,7 +13,6 @@ public class GameBoard {
     private Square whiteKingSquare;
     private Square blackKingSquare;
     private static final Square[][] squares = new Square[8][8];
-
     private String currentPlayer;
 
     public GameBoard() {
@@ -93,7 +92,6 @@ public class GameBoard {
         }
 
         GameBoard.squares[row][col].setOccupiedBy(piece);
-        GameBoard.squares[row][col].setOccupied(true);
     }
 
     public Square getSquare(int x, int y) {
