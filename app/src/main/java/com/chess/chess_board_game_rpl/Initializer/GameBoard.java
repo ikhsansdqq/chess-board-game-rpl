@@ -98,7 +98,7 @@ public class GameBoard {
         if (x >= 0 && x < 8 && y >= 0 && y < 8) {
             return squares[x][y];
         } else {
-            return null; // or throw an exception if you prefer
+            return null;
         }
     }
 
