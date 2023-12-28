@@ -4,6 +4,8 @@ import static com.chess.chess_board_game_rpl.pieces.King.isKingInCheck;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
@@ -28,7 +30,21 @@ import java.util.Objects;
 public class InGameActivity extends AppCompatActivity {
 
     private final SquareWrapper selectedSquareWrapper = new SquareWrapper(null, null);
-
+    private TextView timerTextView;
+    private Handler handler;
+    private long startTime, timeInMilliseconds, timeBuffer, updateTime = 0L;
+    private Runnable runnable = new Runnable() {
+        public void run() {
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+            updateTime = timeBuffer + timeInMilliseconds;
+            int secs = (int) (updateTime / 1000);
+            int mins = secs / 60;
+            secs %= 60;
+            int milliseconds = (int) (updateTime % 1000);
+            timerTextView.setText("" + mins + ":" + String.format("%02d", secs) + ":" + String.format("%03d", milliseconds));
+            handler.postDelayed(this, 0);
+        }
+    };
     protected void updateTurnIndicator(String currentPlayer) {
         TextView turnIndicator = findViewById(R.id.turnIndicator);
         turnIndicator.setText(currentPlayer + "'s Turn");
@@ -51,7 +67,9 @@ public class InGameActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        timerTextView = findViewById(R.id.timerTextView);
+        handler = new Handler();
+        startStopwatch();
     }
 
     protected void setupGameBoard() {
@@ -246,6 +264,23 @@ public class InGameActivity extends AppCompatActivity {
         }
     }
 
+    private void startStopwatch() {
+        startTime = SystemClock.uptimeMillis();
+        handler.postDelayed(runnable, 0);
+    }
+
+    private void pauseStopwatch() {
+        timeBuffer += timeInMilliseconds;
+        handler.removeCallbacks(runnable);
+    }
+
+    private void resetStopwatch() {
+        startTime = 0L;
+        timeInMilliseconds = 0L;
+        timeBuffer = 0L;
+        updateTime = 0L;
+        timerTextView.setText("00:00:000");
+    }
     public ImageView getSquareImageView(int row, int col) {
         GridLayout chessBoard = findViewById(R.id.chessBoard);
         String tag = row + "," + col;
