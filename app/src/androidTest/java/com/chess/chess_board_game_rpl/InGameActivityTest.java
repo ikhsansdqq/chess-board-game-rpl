@@ -1,6 +1,11 @@
 package com.chess.chess_board_game_rpl;
 
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -132,6 +137,18 @@ public class InGameActivityTest {
             return "QN_WHITE";
         }
         return null; // No piece expected at this position
+    }
+
+    @Test
+    public void stopwatchUpdatesTextView() throws InterruptedException {
+        // Specify the time in milliseconds you want to wait for the stopwatch to update
+        final int waitTime = 2000; // 2 seconds, for example
+
+        // Wait for the specified time
+        Thread.sleep(waitTime);
+
+        // Check if the TextView shows the expected time after waiting
+        onView(withId(R.id.timerTextView)).check(matches(withText(containsString("00:03")))); //Added one second because of delay
     }
 
     /*

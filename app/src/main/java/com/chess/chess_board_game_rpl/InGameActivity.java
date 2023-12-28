@@ -5,9 +5,7 @@ import static com.chess.chess_board_game_rpl.pieces.King.isKingInCheck;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.util.Log;
-import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,30 +22,21 @@ import com.chess.chess_board_game_rpl.pieces.Pawn;
 import com.chess.chess_board_game_rpl.pieces.Piece;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
 public class InGameActivity extends AppCompatActivity {
 
     private final SquareWrapper selectedSquareWrapper = new SquareWrapper(null, null);
-    private TextView timerTextView;
-    private Handler handler;
-    private long startTime, timeInMilliseconds, timeBuffer, updateTime = 0L;
-    private Runnable runnable = new Runnable() {
-        public void run() {
-            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
-            updateTime = timeBuffer + timeInMilliseconds;
-            int secs = (int) (updateTime / 1000);
-            int mins = secs / 60;
-            secs %= 60;
-            int milliseconds = (int) (updateTime % 1000);
-            timerTextView.setText("" + mins + ":" + String.format("%02d", secs) + ":" + String.format("%03d", milliseconds));
-            handler.postDelayed(this, 0);
-        }
-    };
+
+    private final Handler handler = new Handler();
+    private Runnable runnable;
+    private int elapsedTime = 0; // Time elapsed in seconds
+
     protected void updateTurnIndicator(String currentPlayer) {
         TextView turnIndicator = findViewById(R.id.turnIndicator);
-        turnIndicator.setText(currentPlayer + "'s Turn");
+        turnIndicator.setText(String.format("%s's Turn", currentPlayer));
     }
 
     @Override
@@ -67,9 +56,8 @@ public class InGameActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        timerTextView = findViewById(R.id.timerTextView);
-        handler = new Handler();
-        startStopwatch();
+        TextView timeView = findViewById(R.id.timerTextView);
+        startStopwatch(timeView);
     }
 
     protected void setupGameBoard() {
@@ -264,32 +252,23 @@ public class InGameActivity extends AppCompatActivity {
         }
     }
 
-    private void startStopwatch() {
-        startTime = SystemClock.uptimeMillis();
-        handler.postDelayed(runnable, 0);
-    }
+    private void startStopwatch(TextView timeView) {
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                elapsedTime++; // Increment the elapsed time every second
+                int secs = elapsedTime % 60;
+                int min = (elapsedTime % 3600) / 60;
 
-    private void pauseStopwatch() {
-        timeBuffer += timeInMilliseconds;
-        handler.removeCallbacks(runnable);
-    }
+                // Update the TextView
+                timeView.setText(String.format(Locale.getDefault(), "%02d:%02d", min, secs));
 
-    private void resetStopwatch() {
-        startTime = 0L;
-        timeInMilliseconds = 0L;
-        timeBuffer = 0L;
-        updateTime = 0L;
-        timerTextView.setText("00:00:000");
-    }
-    public ImageView getSquareImageView(int row, int col) {
-        GridLayout chessBoard = findViewById(R.id.chessBoard);
-        String tag = row + "," + col;
-        for (int i = 0; i < chessBoard.getChildCount(); i++) {
-            View view = chessBoard.getChildAt(i);
-            if (view instanceof ImageView && tag.equals(view.getTag())) {
-                return (ImageView) view;
+                // Post the runnable again with a delay of 1000 milliseconds (1 second)
+                handler.postDelayed(this, 1000);
             }
-        }
-        return null; // Return null if no matching square is found
+        };
+
+        handler.post(runnable);
     }
+
 }
