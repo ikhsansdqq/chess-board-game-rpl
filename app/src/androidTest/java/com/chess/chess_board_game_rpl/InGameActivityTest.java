@@ -1,6 +1,5 @@
 package com.chess.chess_board_game_rpl;
 
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -8,6 +7,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
@@ -18,6 +18,10 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.chess.chess_board_game_rpl.Initializer.Square;
+import com.chess.chess_board_game_rpl.pieces.Pawn;
+import com.chess.chess_board_game_rpl.pieces.Piece;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -151,11 +155,35 @@ public class InGameActivityTest {
         onView(withId(R.id.timerTextView)).check(matches(withText(containsString("00:03")))); //Added one second because of delay
     }
 
-    /*
     @Test
     public void testMovePiece() {
+
+        activityRule.getScenario().onActivity(activity -> {
+            // Initialize your test squares, image views, and piece
+            Square fromSquare = new Square(0, 1); // Example starting square
+            Square toSquare = new Square(0, 2); // Example destination square
+            Piece piece = new Pawn("WHITE", "P1W"); // Example piece
+            fromSquare.setOccupiedBy(piece);
+
+            // Mock or create ImageView objects
+            ImageView fromView = new ImageView(activity);
+            ImageView toView = new ImageView(activity);
+
+            // Map for piece images
+            Map<String, Integer> pieceImageMap = new HashMap<>();
+            // Populate your pieceImageMap with test data
+
+            // Call movePiece
+            activity.movePiece(fromSquare, toSquare, fromView, toView, pieceImageMap, activity.getGameBoard(), activity);
+
+            // Assert outcomes
+            assertNull("Piece should be moved from original square", fromSquare.getOccupiedBy());
+            assertEquals("Destination square should have the piece", piece, toSquare.getOccupiedBy());
+            // Add more assertions as necessary
+        });
     }
 
+    /*
     @Test
     public void testCheckForCheckAndCheckmate() {
         // Test the checkForCheckAndCheckmate method

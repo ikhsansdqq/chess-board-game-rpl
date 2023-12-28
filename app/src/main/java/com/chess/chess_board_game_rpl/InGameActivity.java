@@ -29,11 +29,10 @@ import java.util.Objects;
 public class InGameActivity extends AppCompatActivity {
 
     private final SquareWrapper selectedSquareWrapper = new SquareWrapper(null, null);
-
     private final Handler handler = new Handler();
-    private Runnable runnable;
     private int elapsedTime = 0; // Time elapsed in seconds
 
+    private final GameBoard gameBoard = new GameBoard(); //Initialize the board
     protected void updateTurnIndicator(String currentPlayer) {
         TextView turnIndicator = findViewById(R.id.turnIndicator);
         turnIndicator.setText(String.format("%s's Turn", currentPlayer));
@@ -77,7 +76,7 @@ public class InGameActivity extends AppCompatActivity {
         pieceImageMap.put("QUEEN_WHITE", R.drawable.queen_white);
         pieceImageMap.put("QUEEN_BLACK", R.drawable.queen_black);
 
-        GameBoard gameBoard = new GameBoard(); //Initialize the board
+
         GridLayout chessBoard = findViewById(R.id.chessBoard);
         String squareTag; //Square tag is to track where the square should be
 
@@ -242,6 +241,10 @@ public class InGameActivity extends AppCompatActivity {
         pieceView.setBackgroundResource(R.drawable.selected_piece_border);
     }
 
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
     public static class SquareWrapper { //This is the wrapper for clicked square
         public Square square;
         public ImageView view;
@@ -253,7 +256,10 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     private void startStopwatch(TextView timeView) {
-        runnable = new Runnable() {
+        // Increment the elapsed time every second
+        // Update the TextView
+        // Post the runnable again with a delay of 1000 milliseconds (1 second)
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 elapsedTime++; // Increment the elapsed time every second
