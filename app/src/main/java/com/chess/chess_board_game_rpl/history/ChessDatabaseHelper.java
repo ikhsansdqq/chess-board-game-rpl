@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +23,8 @@ public class ChessDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PLAYER2 = "player2";
     private static final String COLUMN_DATE = "date";
     private static final String COLUMN_TIME_PLAYING = "time_playing";
-    private static final String COLUMN_MOVES_PLAYER1 = "moves_player1";
-    private static final String COLUMN_MOVES_PLAYER2 = "moves_player2";
+    public static final String COLUMN_MOVES_PLAYER1 = "moves_player1";
+    public static final String COLUMN_MOVES_PLAYER2 = "moves_player2";
     private static final String COLUMN_KILLED_PIECES_PLAYER1 = "killed_pieces_player1";
     private static final String COLUMN_KILLED_PIECES_PLAYER2 = "killed_pieces_player2";
     private static final String COLUMN_WINNER = "winner";
@@ -56,21 +58,23 @@ public class ChessDatabaseHelper extends SQLiteOpenHelper {
                         String movesPlayer1, String movesPlayer2,
                         String killedPiecesPlayer1, String killedPiecesPlayer2,
                         String winner) {
-        SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_PLAYER1, player1);
-        values.put(COLUMN_PLAYER2, player2);
-        values.put(COLUMN_DATE, date);
-        values.put(COLUMN_TIME_PLAYING, timePlaying);
-        values.put(COLUMN_MOVES_PLAYER1, movesPlayer1);
-        values.put(COLUMN_MOVES_PLAYER2, movesPlayer2);
-        values.put(COLUMN_KILLED_PIECES_PLAYER1, killedPiecesPlayer1);
-        values.put(COLUMN_KILLED_PIECES_PLAYER2, killedPiecesPlayer2);
-        values.put(COLUMN_WINNER, winner);
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_PLAYER1, player1);
+            values.put(COLUMN_PLAYER2, player2);
+            values.put(COLUMN_DATE, date);
+            values.put(COLUMN_TIME_PLAYING, timePlaying);
+            values.put(COLUMN_MOVES_PLAYER1, movesPlayer1);
+            values.put(COLUMN_MOVES_PLAYER2, movesPlayer2);
+            values.put(COLUMN_KILLED_PIECES_PLAYER1, killedPiecesPlayer1);
+            values.put(COLUMN_KILLED_PIECES_PLAYER2, killedPiecesPlayer2);
+            values.put(COLUMN_WINNER, winner);
 
-        db.insert(TABLE_NAME, null, values);
-        db.close();
+            db.insert(TABLE_NAME, null, values);
+        } catch (SQLiteException e) {
+            System.out.println("Error at: " + e);
+        }
     }
 
     public List<String> getAllGames() {
@@ -94,5 +98,34 @@ public class ChessDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return games;
+    }
+
+    public ChessGame fetchMovesForGame(int gameId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ChessGame chessGame = null;
+
+        String[] columns = {COLUMN_MOVES_PLAYER1, COLUMN_MOVES_PLAYER2};
+        String selection = COLUMN_ID + "=?";
+        String[] selectionArgs = {String.valueOf(gameId)};
+
+        try (Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                int columnIndexMovesPlayer1 = cursor.getColumnIndex(COLUMN_MOVES_PLAYER1);
+                int columnIndexMovesPlayer2 = cursor.getColumnIndex(COLUMN_MOVES_PLAYER2);
+
+                if (columnIndexMovesPlayer1 != -1 && columnIndexMovesPlayer2 != -1) {
+                    String movesPlayer1 = cursor.getString(columnIndexMovesPlayer1);
+                    String movesPlayer2 = cursor.getString(columnIndexMovesPlayer2);
+
+                    chessGame = new ChessGame(movesPlayer1, movesPlayer2);
+                } else {
+                    // Handle the case where one of the columns is not found
+                }
+            }
+        } finally {
+            db.close();
+        }
+
+        return chessGame;
     }
 }

@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 
 import com.chess.chess_board_game_rpl.Initializer.GameBoard;
 import com.chess.chess_board_game_rpl.Initializer.Square;
+import com.chess.chess_board_game_rpl.history.ChessDatabaseHelper;
 import com.chess.chess_board_game_rpl.pieces.King;
 import com.chess.chess_board_game_rpl.pieces.Pawn;
 import com.chess.chess_board_game_rpl.pieces.Piece;
@@ -256,9 +257,6 @@ public class InGameActivity extends AppCompatActivity {
     }
 
     private void startStopwatch(TextView timeView) {
-        // Increment the elapsed time every second
-        // Update the TextView
-        // Post the runnable again with a delay of 1000 milliseconds (1 second)
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -275,6 +273,11 @@ public class InGameActivity extends AppCompatActivity {
         };
 
         handler.post(runnable);
+    }
+
+    public void saveToDatabase(HashMap<Integer, String> player1Movement, HashMap<Integer, String> player2Movement) {
+//        ChessDatabaseHelper chessDatabaseHelper = new ChessDatabaseHelper(this);
+//        chessDatabaseHelper.onCreate();
     }
 
 }

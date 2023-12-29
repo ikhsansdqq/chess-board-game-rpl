@@ -2,22 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="App">
+      <entry key="ChessDatabaseHelperTest">
         <State />
       </entry>
-      <entry key="GameBoardTest">
-        <State />
-      </entry>
-      <entry key="KnightTest">
-        <State />
-      </entry>
-      <entry key="PawnTest">
-        <State />
-      </entry>
-      <entry key="RookTest">
-        <State />
-      </entry>
-      <entry key="SquareTest">
+      <entry key="app">
         <State />
       </entry>
     </value>
