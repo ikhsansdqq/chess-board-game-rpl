@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/font"
-                android:text="PlayerName"
+                android:text="PlayerBlack"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/font"
-                android:text="Score: 0"
+                android:text="Score: -"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/font"
-                android:text="White Turn"
+                android:text="WHITE Turn"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="17sp" />
@@ -131,7 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/font"
-                android:text="FirstPlayerName"
+                android:text="PlayerWhite"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -140,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/font"
-                android:text="Score: 0"
+                android:text="Score: -"
                 android:textSize="16sp" />
 
         </LinearLayout>

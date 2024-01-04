@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         playWithBot.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("Choose Difficulty");
-            final String[] levels = {"EZ Mode", "Normal Mode", "Nightmare Mode"};
+            final String[] levels = {"Normal Mode", "Newbie Mode"};
             final String[] selectedDifficulty = {levels[0]};
 
             builder.setSingleChoiceItems(levels, 0, (dialog12, which) -> {

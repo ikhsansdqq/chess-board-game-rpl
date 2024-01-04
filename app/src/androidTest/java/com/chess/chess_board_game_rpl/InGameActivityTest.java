@@ -58,7 +58,7 @@ public class InGameActivityTest {
             activity.updateTurnIndicator(currentPlayer);
             TextView turnIndicator = activity.findViewById(R.id.turnIndicator);
             assertNotNull("Turn indicator TextView is not initialized", turnIndicator);
-            String expectedText = currentPlayer + "'s Turn";
+            String expectedText = currentPlayer + " Turn";
             assertEquals("Turn indicator text is not updated correctly", expectedText, turnIndicator.getText().toString());
         });
     }

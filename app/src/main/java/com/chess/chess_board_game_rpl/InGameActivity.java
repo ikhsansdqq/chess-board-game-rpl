@@ -36,7 +36,9 @@ public class InGameActivity extends AppCompatActivity {
     private final GameBoard gameBoard = new GameBoard(); //Initialize the board
     protected void updateTurnIndicator(String currentPlayer) {
         TextView turnIndicator = findViewById(R.id.turnIndicator);
-        turnIndicator.setText(String.format("%s's Turn", currentPlayer));
+        if (turnIndicator != null) {
+            turnIndicator.setText(String.format("%s Turn", currentPlayer));
+        }
     }
 
     @Override
@@ -150,7 +152,10 @@ public class InGameActivity extends AppCompatActivity {
                             if (isValidMove(selectedPiece, selectedSquareWrapper.square, clickedSquare, gameBoard, clickedPieceColor)) {
                                 movePiece(selectedSquareWrapper.square, clickedSquare, selectedSquareWrapper.view, (ImageView) v, pieceImageMap, gameBoard, this);
                                 gameBoard.switchTurn();
-                                updateTurnIndicator(gameBoard.getCurrentPlayer());
+                                if (gameBoard.getCurrentPlayer() != null) {
+                                    updateTurnIndicator(gameBoard.getCurrentPlayer());
+                                }
+
                             } else {
                                 showToast("Invalid move");
                             }
@@ -213,6 +218,7 @@ public class InGameActivity extends AppCompatActivity {
             Log.d("ChessDebug", "KING IN CHECK");
             if (King.isCheckmate(gameBoard, opponentColor)) {
                 showToast("KING CHECK MATED");
+                setContentView(R.layout.win_popup);
             } else {
                 // Handle check scenario (e.g., notify players, highlight king)
                 Toast.makeText(this, "Your king almost die! get out!", Toast.LENGTH_SHORT).show();
